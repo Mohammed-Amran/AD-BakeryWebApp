@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import DAO.DaoUsers;
+import dao.DaoUsers;
 
 @WebServlet("/loginController")
 public class LoginController extends HttpServlet {
