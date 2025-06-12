@@ -253,127 +253,207 @@ if(session == null || session.getAttribute("fullName") == null){
 
 
 
+<c:if test="${not empty sessionScope.openCartModal}">
+    <script>
+					$(document).ready(function() {
+						$('#cart').modal('show');
+					});
+				</script>
+
+    <c:remove var="openCartModal" scope="session" />
+</c:if>
+
+
+
+
 <!-- ========- CART MODAL -=========== -->
 
 <!-- Cart Modal -->
 	<div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-hidden="true">
 		
-		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-dialog modal-lg" role="document" >
 			
 			<div class="modal-content">
 				
-				<div class="modal-header">
+				<div class="modal-header" style="background-color: #C9B194;">
 					
-					<h3 class="modal-title" style="font-weight: bold;">Your Cart</h3>
+					<h3 class="modal-title" style="font-weight: bold; color: #4a403a; font-family: 'Pacifico', cursive; font-style: normal;"> Cart</h3>
 				
 				</div>
-				
+
+
 				<div class="modal-body">
+				
 					
-					<!-- Here's the region where the list of the selected items are shown -->
 					<div class="cart-body">
 					
-					
-					<c:choose>
-					
-					  <c:when test="${not empty sessionScope.retrievedCartItems}">
-					
-					
-					       <div class="cart-item-header">
-                             
-                              <span class="item-name"> <strong> Item Name </strong> </span>
- 
-                              <span class="item-quantity"> <strong> Quantity </strong> </span>
- 
-                              <span class="item-price"> <strong> Price </strong> </span>
-                           
-                           </div>
-					   
-					
-					
-					       <!-- Looping through the items -->
-					       <c:forEach var="x" items="${sessionScope.retrievedCartItems}">
-					       
-					          <div class="cart-item">
-					          
-					           <div class="cart-item-row">
-                                  
-                                   <span class="item-name"> <strong> <c:out value="${x.itemName}" /> </strong> </span>
-  
-                                   <span class="item-quantity"> <c:out value="${x.selectedQuantity}" /> </span>
- 
-                                   <span class="item-price"> <c:out value="${x.selectedQuantity * 125}" /> IQD </span>
-              
-                               </div>
+						<c:choose>
+						
+							<c:when test="${not empty sessionScope.retrievedCartItems}">
+							
+								<div class="cart-item-header" style="background-color: #C9B194;">
+								
+									<span class="item-name"><strong style="color: #4a403a; font-family: 'Pacifico', cursive; font-style: normal;">Item Name</strong></span>
+									 
+									<span class="item-quantity"><strong style="color: #4a403a; font-family: 'Pacifico', cursive; font-style: normal;">Quantity</strong></span>
+									
+									<span class="item-price"><strong style="color: #4a403a; font-family: 'Pacifico', cursive; font-style: normal;">Price</strong></span>
+									
+									<span class="item-actions"><strong style="color: #4a403a; font-family: 'Pacifico', cursive; font-style: normal;">Actions</strong></span>
+								
+								</div>
 
-					          
-					          </div>
-					       
-					       </c:forEach>
-					
-					  </c:when>
-					
-					
-					  <c:otherwise>
-                             
-                             <div class="empty-cart">
-                   
-                                <i class="fas fa-shopping-cart"></i>
-                                <p>Your cart is empty</p>
+								<!-- Looping through the items -->
+								<c:forEach var="x" items="${sessionScope.retrievedCartItems}">
+									
+									<div class="cart-item">
+										
+										<div class="cart-item-row">
+											
+											<span class="item-name"> <strong style="color: #A08963; font-size: 22px; font-family: 'Pacifico', cursive; font-style: normal;">
+													                 
+													                    <c:out value="${x.itemName}" />
+											        
+											                         </strong>
+											</span> 
+											
+											<span class="item-quantity" style="color: #4a403a; font-size: 22px;">
+											
+											     <c:out	value="${x.selectedQuantity}" />
+											
+											</span> 
+											
+											<span class="item-price" style="color: #D5451B; font-size: 22px;">
+											
+											     <c:out value="${x.itemPrice * x.selectedQuantity}" /> IQD
+											
+											</span>
+
+
+											<div class="item-actions">
+
+
+												<!-- Increment Button -->
+												<form action="${pageContext.request.contextPath}/incrementItem" method="post" style="display: inline;">
+													
+													<input type="hidden" name="itemId" value="${x.itemId}">
+													
+													<button class="btn btn-quantity btn-increase" style="background-color: #28a745; color: white;">
+														
+														+
+														
+													</button>
+												
+												</form>
+
+
+												<!-- Decrement Button -->
+												<form action="${pageContext.request.contextPath}/decrementItem" method="post" style="display: inline;">
+													
+													<input type="hidden" name="itemId" value="${x.itemId}">
+													
+													<button class="btn btn-quantity btn-decrease" style="background-color: #ffc107; color: black;">
+														
+														-
+														
+													</button>
+													
+												</form>
+
+
+												<!-- Remove Button -->
+												<form action="${pageContext.request.contextPath}/removeItem" method="post" style="display: inline;">
+													
+													<input type="hidden" name="itemId" value="${x.itemId}">
+													
+													<button class="btn btn-delete" style="background-color: #dc3545; color: white;">
+														
+														<i class="fas fa-trash"></i>
+													
+													</button>
+												
+												</form>
+
+											</div> <!-- closing tag of the item-actions div -->
+
+
+
+										</div>
+										
+										
+									</div>
+								
+									
+								</c:forEach>
+
+
+							</c:when>
+
+							<c:otherwise>
+							
+								<div class="empty-cart">
+								
+									<i class="fas fa-shopping-cart"></i>
+									
+									<p>Your cart is empty</p>
+									
+								</div>
+								
+							</c:otherwise>
+							
+						</c:choose>
+						
+					</div>  <!-- Closing tag of the cart body -->
+
+
+					<!-- Total Price -->
+					<div class="total-price-container">
+						
+						<div class="total-line">
+							
+							<strong style="color: #4a403a; font-size: 24px; font-family: 'Pacifico', cursive; font-style: normal;">Total:</strong>
+							
+							<span id="totalPrice" style="color: #D5451B; font-size: 22px;">
+								
+								<c:if test="${not empty sessionScope.retrievedCartItems}">
+									
+									<c:set var="total" value="0" />
+									
+									<c:forEach var="x" items="${sessionScope.retrievedCartItems}">
+										
+										<c:set var="total" value="${total + (x.selectedQuantity * x.itemPrice)}" />
+									
+									</c:forEach>
+                           
+                           
+                                       ${total}
                
-                             </div>
-                     
-                     </c:otherwise>
-					
-					
-					</c:choose>
-					
-					
+                               </c:if>
+                
+                              
+                               <c:if test="${empty sessionScope.retrievedCartItems}">0</c:if>
+								
+								   IQD
+							</span>
+							
+						</div>
+						
 					</div>
 					
 					
 					
-					<%-- Total Price --%>
-                    <div class="total-price-container">
-                       
-                       <div class="total-line">
-                         
-                         <strong>Total:</strong>
-        
-                           <span id="totalPrice">
-                                 
-                                  <c:if test="${not empty sessionScope.retrievedCartItems}">
-                
-                                       <c:set var="total" value="0"/>
-                                       
-                                       <c:forEach var="x" items="${sessionScope.retrievedCartItems}">
-                    
-                                           <c:set var="total" value="${total + (x.selectedQuantity * 125)}"/>
-                
-                                       </c:forEach>
-               
-                                    ${total}
-           
-                                  </c:if>
-           
-                            <c:if test="${empty sessionScope.retrievedCartItems}">0</c:if>
-          
-                               IQD
-        
-                          </span>
-   
-                    </div>
-        
-                 </div> <!-- Closing brace of the 'total-price-container' -->
-				
-				</div>
-				
-				
+				</div> <!-- Closing tag of the modal body -->
+
+
 				<div class="modal-footer">
 					
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 					
-					<button type="button" class="btn btn-primary checkout-btn" onclick="Checkout()">Checkout</button>
+					<form method="get" action="${pageContext.request.contextPath}/goToCheckout">
+					
+					<button type="submit" class="btn btn-primary checkout-btn">Checkout</button>
+				
+				    </form>
 				
 				</div>
 				
@@ -381,13 +461,72 @@ if(session == null || session.getAttribute("fullName") == null){
 			</div>
 			
 		</div>
+		 
 		
 	</div> <!-- Closing Tag of the Cart Modal -->
 
 
 
 
+
+
+<!-- if incrementing items in the Cart failed! this message will be shown -->
+<c:if test="${not empty incrementError}">
+
+    <script type="text/javascript">
+    
+      alert('${incrementError}');
+      
+    </script>
+
+</c:if>
+
+
+
+<!-- if decrementing items in the Cart failed! this message will be shown -->
+<c:if test="${not empty decrementError}">
+
+    <script type="text/javascript">
+    
+      alert('${decrementError}');
+      
+    </script>
+
+</c:if>
+
+
+
+<!-- if removing items in the Cart failed! this message will be shown -->
+<c:if test="${not empty removingError}">
+
+    <script type="text/javascript">
+    
+      alert('${removingError}');
+      
+    </script>
+
+</c:if>
+
+
+
+
 <!-- ################################################################################################################################ -->
+
+
+
+
+
+
+<c:if test="${not empty sessionScope.showCheckoutModal}">
+    <script>
+        $(function() {
+            $('#checkoutModal').modal('show');
+        });
+    </script>
+
+    <c:remove var="showCheckoutModal" scope="session" />
+</c:if>
+
 
 
 
@@ -546,6 +685,7 @@ if(session == null || session.getAttribute("fullName") == null){
 
 
 <!-- =========================================================================================================================== -->
+
 <!-- =========================================================================================================================== -->
 
 
