@@ -251,9 +251,44 @@ if(session == null || session.getAttribute("fullName") == null){
 
 										<span style="width: 30%; text-align: right; color: #D5451B;">${o.itemPriceSum} IQD</span>
 										
-										<span style="width: 20%; text-align: center;">${o.status}</span>
+										
+									<span style="width: 20%; text-align: center;">${o.status}</span>
 
                                        
+									<c:choose>
+                                        
+                                          <c:when test="${o.status eq 'pending' }">
+                                          
+                                              <img src="${pageContext.request.contextPath}/images/gifs/pending.gif" alt="Inbox" style="width: 40px; height: 40px;">
+                                          
+                                          </c:when>
+                                          
+                                          <c:when test="${o.status eq 'processing' }">
+                                          
+                                              <img src="${pageContext.request.contextPath}/images/gifs/baking.gif" alt="Inbox" style="width: 40px; height: 40px;">
+                                          
+                                          </c:when>
+                                          
+                                          
+                                          <c:when test="${o.status eq 'onway' }">
+                                          
+                                              <img src="${pageContext.request.contextPath}/images/gifs/onway.gif" alt="Inbox" style="width: 40px; height: 40px;">
+                                          
+                                          </c:when>
+                                          
+                                          <c:when test="${o.status eq 'delivered' }">
+                                          
+                                              <img src="${pageContext.request.contextPath}/images/gifs/delivered.gif" alt="Inbox" style="width: 40px; height: 40px;">
+                                          
+                                          </c:when>
+                                          
+                                          <c:when test="${o.status eq 'cancelled' }">
+                                          
+                                              <img src="${pageContext.request.contextPath}/images/gifs/cancelled.gif" alt="Inbox" style="width: 40px; height: 40px;">
+                                          
+                                          </c:when>
+                                        
+                                        </c:choose>
 
 									</div>
 
