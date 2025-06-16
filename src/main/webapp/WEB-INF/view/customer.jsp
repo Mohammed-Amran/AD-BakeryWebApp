@@ -186,10 +186,8 @@ if(session == null || session.getAttribute("fullName") == null){
 
 <!-- ========- INBOX MODAL -=========== -->
 
-
 <!-- Inbox Modal -->
-	<div class="modal fade" id="Inbox" tabindex="-1" role="dialog"
-		aria-hidden="true">
+	<div class="modal fade" id="Inbox" tabindex="-1" role="dialog" aria-hidden="true">
 
 		<div class="modal-dialog modal-lg" role="document">
 
@@ -201,42 +199,98 @@ if(session == null || session.getAttribute("fullName") == null){
 
 				</div>
 
-				<div class="modal-body"
-					style="display: flex; justify-content: space-between; gap: 20px;">
-
+				<div class="modal-body" style="display: flex; justify-content: space-between; gap: 20px;">
+ 
+ 
 					<!-- Left Section: Cart Items -->
-					<div style="width: 50%;">
+					<div style="width: 100%;">
 
 						<h5>Your Ordered Items</h5>
 
-						<div class="checkout-cart-body"></div>
+						<div class="checkout-cart-body">
 
-						<p style="font-size: 20px; margin-top: 10px;">
 
-							<strong>Total Price: </strong><span id="checkoutTotalPrice">0</span>
-							IQD
+							<!-- Table Header -->
+							<div class="cart-item-header" style="display: flex; justify-content: space-between; padding: 12px 20px; background-color: #f8f9fa; border-bottom: 1px solid #dee2e6; font-weight: bold; margin-bottom: 10px;">
 
-						</p>
+
+								<span style="width: 50%;">Item Name</span> 
+								
+								<span style="width: 20%; text-align: center;">Quantity</span>
+								
+								<span style="width: 30%; text-align: right;">Sum</span>
+								
+								<span style="width: 30%; text-align: right;">Status</span>
+
+
+							</div>
+
+
+							<!-- Initialize total price -->
+							<c:set var="total" value="0" />
+
+
+
+							<div class="items-list">
+
+								<!-- Loop through ordered items -->
+								<c:forEach var="o" items="${sessionScope.retrievedOrderedItems}">
+
+
+									<c:set var="itemTotal" value="${o.itemPriceSum}" />
+
+									<c:set var="total" value="${total + itemTotal}" />
+
+
+									<div class="cart-item-row" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; border-bottom: 1px solid #eee; margin-bottom: 8px;">
+
+
+										<span style="width: 50%; font-weight: 500;">${o.itemName}</span>
+
+										<span style="width: 20%; text-align: center;">${o.selectedQuantity}</span>
+
+										<span style="width: 30%; text-align: right; color: #D5451B;">${o.itemPriceSum} IQD</span>
+										
+										<span style="width: 20%; text-align: center;">${o.status}</span>
+
+                                       
+
+									</div>
+
+
+								</c:forEach>
+
+
+							</div>
+
+
+							<!-- Total price display -->
+							<div style="margin-top: 25px; text-align: right; padding: 15px 20px; background-color: #f8f9fa; border-top: 1px solid #dee2e6; font-size: 18px;">
+
+								<strong>Total Price: </strong> 
+								
+								<span id="checkoutTotalPrice" style="color: #D5451B; font-weight: bold;">${total}</span> IQD
+
+							</div>
+
+
+						</div> 
+
+
+
+
 
 					</div>
 
 
-					<!-- Right Section: User Info Form -->
-					<div style="width: 40%;">
 
-						<h5>Status</h5>
-
-
-
-					</div>
-
+					
 				</div>
 
 
 				<div class="modal-footer">
 
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal"> Close </button>
 
 				</div>
 
@@ -246,7 +300,6 @@ if(session == null || session.getAttribute("fullName") == null){
 		</div>
 
 	</div> <!-- Closing Tag of the Inbox Modal -->
-
 
 
 <!-- ################################################################################################################################ -->
