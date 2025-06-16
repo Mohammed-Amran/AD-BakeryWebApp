@@ -710,7 +710,90 @@ font-size:19px;
 
 							
 			
-			
+			<!-- Status Update Modal for this order -->
+							<div class="modal fade" id="statusModal${order.orderId}" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel${order.orderId}" aria-hidden="true">
+								
+								<div class="modal-dialog" role="document">
+									
+									<div class="modal-content">
+
+										<div class="modal-header bg-light">
+											
+											<h5 class="modal-title" id="statusModalLabel${order.orderId}">
+											
+											    Update Order Status (ID: ${order.orderId})
+											
+											</h5>
+											
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												
+												<span aria-hidden="true">&times;</span>
+												
+											</button>
+											
+										</div>
+
+
+										
+										<form action="updateOrderStatus" method="post">
+											
+											<div class="modal-body">
+
+												
+												<input type="hidden" name="orderId" value="${order.orderId}" />
+												<input type="hidden" name="userId" value="${order.userId}" />
+												
+
+												
+												<div class="form-group">
+													
+													<label for="newStatus${order.orderId}"> Select New Status </label> 
+						
+						                            <select class="form-control" id="newStatus${order.orderId}" name="status">
+														
+														<option value="pending">pending</option>
+														<option value="processing">processing</option>
+														<option value="onway">onway</option>
+														<option value="delivered">delivered</option>
+														<option value="cancelled">cancelled</option>
+														
+													</select>
+													
+												</div>
+
+											</div>
+
+											<div class="modal-footer">
+											
+												<button type="submit" class="btn btn-success">
+												   
+												   Update Status
+												   
+												</button>
+												
+												<button type="button" class="btn btn-secondary" data-dismiss="modal">
+												
+												    Cancel
+												    
+												</button>
+												
+											</div>
+											
+										</form>
+
+									</div>
+									
+								</div>
+								
+							</div>
+
+						</c:forEach>
+						
+					</tbody>
+					
+				</table>
+				
+			</div>
 			
 			
 			
