@@ -183,9 +183,23 @@ if(session == null || session.getAttribute("fullName") == null){
 
 <!-- ################################################################################################################################ -->
 
-
-
 <!-- ========- INBOX MODAL -=========== -->
+
+
+ <!-- This JS Code opens the Edit User Profile Modal -->
+   <c:if test="${showInboxModal}">
+     
+     <script>
+   
+          $(document).ready(function() { $('#Inbox').modal('show'); });
+ 
+     </script>
+     
+   </c:if>
+
+
+
+
 
 <!-- Inbox Modal -->
 	<div class="modal fade" id="Inbox" tabindex="-1" role="dialog" aria-hidden="true">
@@ -252,11 +266,9 @@ if(session == null || session.getAttribute("fullName") == null){
 
 										<span style="width: 30%; text-align: right; color: #D5451B;">${o.itemPriceSum} IQD</span>
 										
-										
-									<span style="width: 20%; text-align: center;">${o.status}</span>
+										<span style="width: 20%; text-align: center;">${o.status}</span>
 
-                                       
-									<c:choose>
+                                        <c:choose>
                                         
                                           <c:when test="${o.status eq 'pending' }">
                                           
@@ -336,8 +348,6 @@ if(session == null || session.getAttribute("fullName") == null){
 		</div>
 
 	</div> <!-- Closing Tag of the Inbox Modal -->
-
-
 <!-- ################################################################################################################################ -->
 
 
