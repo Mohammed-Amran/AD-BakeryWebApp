@@ -455,6 +455,31 @@ font-size:19px;
 		<div class="navtop" id="mynavTop" style="background-color: #C9B194;">
 
            
+             <a href="" id="box" style="float: right;" data-toggle="modal" data-target="#Inbox">
+              
+             <img src="${pageContext.request.contextPath}/images/gifs/deliveredOrders.gif" alt="Inbox" style="width: 40px; height: 40px;">
+ 
+             <span class="inbox-items"> ( <c:if test="${empty sessionScope.inboxCounter }"> 0 </c:if> ${sessionScope.inboxCounter} ) </span>
+        
+           </a>
+           
+  
+           
+           <a href="${pageContext.request.contextPath}/accessAnalytics" style="float: right;">
+           
+             <img src="${pageContext.request.contextPath}/images/gifs/charts.gif" alt="Inbox" style="width: 40px; height: 40px;">
+         
+           </a>
+
+
+
+           <a href="${pageContext.request.contextPath}/accessEditUserViewItems" style="float: right;">
+           
+             <img src="${pageContext.request.contextPath}/images/gifs/editItems.gif" alt="Inbox" style="width: 40px; height: 40px;">
+         
+           </a>
+           
+           
 		
 		</div>
 

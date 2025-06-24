@@ -40,18 +40,20 @@ public class DaoCart {
 
 
    
-// Insert item into 'cartItems' table
-   public boolean insertIntoCartItem(int id, String itemName, int selectedQuantity) {
+ //This method inserts items into 'cartItems' table
+   public boolean insertIntoCartItem(int userId, int itemId, String itemName, int selectedQuantity, int itemPrice) {
        
-       String sql = "INSERT INTO cartItems (id, itemName, selectedQuantity) VALUES (?, ?, ?)";
+       String sql = "INSERT INTO cartItems (userId, itemId, itemName, selectedQuantity, itemPrice) VALUES (?, ?, ?, ?, ?)";
 
        try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
            
-           stmt.setInt(1, id);
-           stmt.setString(2, itemName);
-           stmt.setInt(3, selectedQuantity);
+           stmt.setInt(1, userId);
+           stmt.setInt(2, itemId);
+           stmt.setString(3, itemName);
+           stmt.setInt(4, selectedQuantity);
+           stmt.setInt(5, itemPrice);
 
-           System.out.println("Trying to insert into cartItems: ID=" + id + ", Item=" + itemName + ", Quantity=" + selectedQuantity);
+           System.out.println("Trying to insert into cartItems: USER-ID=" + userId + ", Item=" + itemName + ", Quantity=" + selectedQuantity + ", itemPrice=" + itemPrice);
 
            int rowsInserted = stmt.executeUpdate();
 
@@ -165,6 +167,142 @@ public class DaoCart {
  	    
  	}//closing brace of the 'clearCart()' method.
 	
+ 	
+ 	
+ 	//==========================================================================================
+ 	
+ 	
+ 	//This method updates the selectedQuantity attribute in the 'cartItems' table - by incrementing it by 1.
+ 		public boolean IncrementUpdateCartItemQuantity(int userId, int itemId) {
+ 		  
+ 			String sql = "UPDATE cartItems SET selectedQuantity = selectedQuantity + 1 WHERE userId = ? AND itemId = ?";
+
+ 		    try (Connection conn = getConnection(); 
+ 		         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+ 		        stmt.setInt(1, userId);
+ 		        stmt.setInt(2, itemId);
+ 		        
+
+ 		        System.out.println("Incrementing quantity for USER-ID=" + userId + ", ITEM-ID=" + itemId );
+
+ 		        int rowsUpdated = stmt.executeUpdate();
+ 		        return rowsUpdated > 0;
+
+ 		    } catch (SQLException e) {
+ 		        e.printStackTrace();
+ 		        return false;
+ 		    }
+ 		    
+ 		    
+ 		}//closing brace of the 'IncrementUpdateCartItemQuantity()' methods.
+
+ 		
+ 		
+ 		
+ 		//===============================================================================================
+ 		
+ 		
+ 		//This method updates the selectedQuantity attribute in the 'cartItems' table - by decrementing it by 1.
+ 		public boolean decrementUpdateCartItemQuantity(int userId, int itemId) {
+ 		   
+ 			// Firstly, check the current selectedQuantity
+ 		    String checkQtySql = "SELECT selectedQuantity FROM cartItems WHERE userId = ? AND itemId = ?";
+ 		    
+ 		    
+ 		    try (Connection conn = getConnection();
+ 		    		
+ 		         PreparedStatement checkStmt = conn.prepareStatement(checkQtySql)) {
+
+ 		        checkStmt.setInt(1, userId);
+ 		        checkStmt.setInt(2, itemId);
+ 		        
+ 		        ResultSet rs = checkStmt.executeQuery();
+
+ 		        if (rs.next()) {
+ 		        	
+ 		            int currentQty = rs.getInt("selectedQuantity");
+ 		            
+ 		            //Checking if the current selectedQuantity is less than 2.
+ 		            if (currentQty <= 1) {
+ 		            	
+ 		                // Remove the item if selectedQuantity is less than 2.
+ 		                return removeCartItem(userId, itemId);
+ 		                
+ 		            } 
+ 		            else {
+ 		            	
+ 		                // Decrement quantity
+ 		                String updateSql = "UPDATE cartItems SET selectedQuantity = selectedQuantity - 1 WHERE userId = ? AND itemId = ?";
+ 		                
+ 		                try (PreparedStatement updateStmt = conn.prepareStatement(updateSql)) {
+ 		                	
+ 		                    updateStmt.setInt(1, userId);
+ 		                    updateStmt.setInt(2, itemId);
+ 		                    
+ 		                    return updateStmt.executeUpdate() > 0;
+ 		                    
+ 		                }
+ 		                
+ 		            }
+ 		            
+ 		        } 
+ 		        else {
+ 		            
+ 		        	return false; // Item not found
+ 		        }
+ 		    } 
+ 		    catch (SQLException e) {
+ 		       
+ 		    	e.printStackTrace();
+ 		       
+ 		    	return false;
+ 		    }
+ 		    
+ 		}
+
+ 		
+ 		
+
+ 	//===================================================================================================================
+
+ 		
+ 		//This method removes the item in the cart using userId & itemId.
+ 		public boolean removeCartItem(int userId, int itemId) {
+ 			
+ 		    String sql = "DELETE FROM cartItems WHERE userId = ? AND itemId = ?";
+ 		    
+ 		    try (Connection conn = getConnection();
+ 		         PreparedStatement stmt = conn.prepareStatement(sql)) {
+ 		        
+ 		        stmt.setInt(1, userId);
+ 		        stmt.setInt(2, itemId);
+ 		        
+ 		        
+ 		        System.out.println("Removing item: USER-ID=" + userId + ", ITEM-ID=" + itemId);
+ 		        
+ 		        int rowsDeleted = stmt.executeUpdate();
+ 		        return rowsDeleted > 0;
+ 		        
+ 		    } 
+ 		    catch (SQLException e) {
+ 		       
+ 		    	e.printStackTrace();
+ 		       
+ 		    	return false;
+ 		    }
+ 		    
+ 		}//closing brace of the 'removeCartItem()' method
+ 		
+ 		
+ 		
+ 	//==================================================================================================================
+ 		
+ 		
+ 	
+ 	
+ 	
+ 	
 	
 	
 	
