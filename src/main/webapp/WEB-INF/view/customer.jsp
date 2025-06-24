@@ -204,6 +204,337 @@ if(session == null || session.getAttribute("fullName") == null){
 	</div> <!-- Closing tag of the User-info Modal -->
 
 
+	<!-- Modal for Editing User Info -->
+	<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
+		
+		<div class="modal-dialog modal-lg" role="document" style="max-width: 900px;">
+			
+			<div class="modal-content">
+				
+				<div class="modal-header" style="background: #C9B194; padding: 20px;">
+					
+					<h5 class="modal-title" id="userModalLabel" style="color: #4a403a; font-family: 'Pacifico', cursive; font-size: 24px;">
+					
+					   Edit Profile
+						
+				    </h5>
+				    
+				</div>
+
+				<div class="modal-body" style="padding: 25px;">
+					
+					<table class="table table-bordered" style="font-size: 16px;">
+						
+						<thead>
+						
+							<tr class="table-light">
+							
+								<th style="padding: 15px; font-size: 18px;">Field</th>
+								
+								<th style="padding: 15px; font-size: 18px;">Current Data</th>
+								
+								<th style="padding: 15px; font-size: 18px;">Update To</th>
+								
+							</tr>
+							
+						</thead>
+						
+						<tbody>
+						
+							<tr>
+								<td style="padding: 15px;">Full Name</td>
+								
+								<td style="padding: 15px;">${requestScope.retrievedFullName}</td>
+								
+								<td style="padding: 15px;">
+								
+									<form action="${pageContext.request.contextPath}/updateUserFullName" method="post" style="display: flex; gap: 10px; align-items: center;">
+										
+										<input type="text" name="newFullName" class="form-control" value="${requestScope.newFullName}" required style="padding: 10px; font-size: 16px; height: 45px; flex: 1;" />
+										
+										<button type="submit" class="reload-img" style="margin-top: 0px;">
+											
+											<img src="${pageContext.request.contextPath}/images/primaryStaticReload.png" alt="Reload" style="width: 45px; height: 45px;">
+										
+										</button>
+									
+									</form>
+								
+								</td>
+							
+							</tr>
+							
+							
+							<tr>
+								
+								<td style="padding: 15px;">Email</td>
+								
+								<td style="padding: 15px;">${requestScope.retrievedEmail}</td>
+								
+								<td style="padding: 15px;">
+									
+									<form action="${pageContext.request.contextPath}/updateUserEmail" method="post" style="display: flex; gap: 10px; align-items: center;">
+										
+										<input type="email" name="newEmail" class="form-control" value="${requestScope.newEmail}" required style="padding: 10px; font-size: 16px; height: 45px; flex: 1;" />
+										
+										<c:if test="${not empty emailError}">
+											
+											<div style="color: red; font-size: 15px; margin-top: 5px;">${emailError}</div>
+										
+										</c:if>
+										
+										<button type="submit" class="reload-img" style="margin-top: 0px;">
+											
+											<img src="${pageContext.request.contextPath}/images/primaryStaticReload.png" alt="Reload" style="width: 45px; height: 45px;">
+										
+										</button>
+									
+									</form>
+								
+								</td>
+							
+							</tr>
+							
+							
+							<tr>
+								
+								<td style="padding: 15px;">Password</td>
+
+								<td style="padding: 15px;">
+								
+								    <span id="hiddenPassword" style="letter-spacing: 2px;">
+                                    
+                                    <c:forEach begin="1" end="${fn:length(requestScope.retrievedPassword)}">•</c:forEach>
+
+                                    </span>
+ 
+								
+								    <span id="realPassword" style="display: none;">${requestScope.retrievedPassword}</span>
+
+									<button onclick="togglePassword()" style="border: none; background: none; cursor: pointer;">
+										
+										<i id="eyeIcon" class="fa-solid fa-eye"></i>
+									
+									</button>
+									
+							    </td>
+
+
+								<td style="padding: 15px;">
+									
+									<form action="${pageContext.request.contextPath}/updateUserPassword" method="post" style="display: flex; gap: 10px; align-items: center;">
+										
+										<input type="password" name="newPassword" class="form-control" value="${requestScope.newPassword}" required  style="padding: 10px; font-size: 16px; height: 45px; flex: 1;" />
+										
+										<button type="submit" class="reload-img" style="margin-top: 0px;">
+											
+											<img src="${pageContext.request.contextPath}/images/primaryStaticReload.png" alt="Reload" style="width: 45px; height: 45px;">
+										
+										</button>
+									
+									</form>
+								
+								</td>
+							
+							</tr>
+							
+							
+							<tr>
+								
+								<td style="padding: 15px;">Phone No</td>
+								
+								<td style="padding: 15px;">${requestScope.retrievedPhoneNo}</td>
+								
+								<td style="padding: 15px;">
+									
+									<form action="${pageContext.request.contextPath}/updateUserPhoneNo" method="post" style="display: flex; gap: 10px; align-items: center;">
+										
+										<input type="text" name="newPhoneNo" class="form-control" value="${requestScope.newPhoneNo}" required style="padding: 10px; font-size: 16px; height: 45px; flex: 1;" />
+										
+										<c:if test="${not empty phoneError}">
+											
+											<div style="color: red; font-size: 15px; margin-top: 5px;">${phoneError}</div>
+										
+										</c:if>
+										
+										<button type="submit" class="reload-img" style="margin-top: 0px;">
+											
+											<img src="${pageContext.request.contextPath}/images/primaryStaticReload.png" alt="Reload" style="width: 45px; height: 45px;">
+										
+										</button>
+									
+									</form>
+								
+								</td>
+							
+							</tr>
+						
+						
+						</tbody>
+					
+					</table>
+				
+				</div>
+
+				<div class="modal-footer" style="padding: 20px; display: flex; justify-content: flex-end;">
+					
+					<button type="button" class="btn btn-default" data-dismiss="modal" style="padding: 8px 20px; font-size: 16px;">
+					
+					   Cancel
+					   
+					</button>
+				
+				</div>
+			
+			</div>
+		
+		</div>
+	
+	</div> <!-- Closing tag of the User-info Modal -->
+
+
+<!-- This JS below replaces the static reload IMG with the reload GIF onClick -->
+<script>
+
+document.querySelectorAll('.reload-img').forEach(button => {
+ 
+	const img = button.querySelector('img');
+  
+	const originalSrc = img.src;
+  
+	const clickedSrc = '${pageContext.request.contextPath}/images/gifs/reloadGif.gif';
+
+ 
+	button.addEventListener('click', function (e) {
+    
+		e.preventDefault(); // Stop form submission until the GIF animates
+
+   
+		// Show reload GIF on button
+        img.src = clickedSrc;
+
+   
+		// Step 1: Show the reload GIF for ~500ms
+        setTimeout(() => {
+      
+        	
+        // Step 2: Display full-screen strike GIF
+        const overlay = document.getElementById('strikeOverlay');
+        
+        overlay.style.display = 'flex';
+        
+        setTimeout(() => { overlay.style.opacity = '1';  overlay.style.visibility = 'visible'; }, 10); // slight delay to trigger transition
+
+
+        
+       // Step 3: Keep strike GIF for ~1.5s, then submit form
+       setTimeout(() => {
+                         
+    	                overlay.style.opacity = '0';
+    	                overlay.style.visibility = 'hidden';
+
+    	                setTimeout(() => { overlay.style.display = 'none'; }, 500); // match transition time
+
+
+                          const form = button.closest('form');
+       
+                          if (form) { form.submit(); }
+
+                         }, 2600); // Length of strike.gif
+
+   
+           }, 500); // Delay before showing strike
+  
+	});
+
+});
+</script>
+
+
+
+  
+	
+
+<!-- ------------------------------------------------------------ -->
+
+
+<!-- This JS code below is used to hide & un hide the password -->
+<script>
+  let isVisible = false;
+
+  function togglePassword() {
+    const hiddenSpan = document.getElementById("hiddenPassword");
+    const realSpan = document.getElementById("realPassword");
+    const eyeIcon = document.getElementById("eyeIcon");
+
+    if (isVisible) {
+      realSpan.style.display = "none";
+      hiddenSpan.style.display = "inline";
+      eyeIcon.classList.remove("fa-eye-slash");
+      eyeIcon.classList.add("fa-eye");
+    } else {
+      realSpan.style.display = "inline";
+      hiddenSpan.style.display = "none";
+      eyeIcon.classList.remove("fa-eye");
+      eyeIcon.classList.add("fa-eye-slash");
+    }
+
+    isVisible = !isVisible;
+  }
+</script>
+
+
+
+
+
+
+<!-- Rocket Strike GIF modal -->
+
+
+<!-- Strike GIF Overlay Modal -->
+<div id="strikeOverlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(255, 255, 255, 0.2);
+    
+     backdrop-filter: blur(6px);
+ 
+     z-index: 9999;
+ 
+     justify-content: center;
+  
+     align-items: center;
+
+     opacity: 0;
+  
+     visibility: hidden;
+ 
+     transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out; ">
+ 
+     <img src="${pageContext.request.contextPath}/images/gifs/PrimaryRocketLauncch.gif" alt="Reloading..." style="width: 250px; height: 250px;" />
+  
+</div>
+
+
+
+<!-- / / / / / / / / / / / / / /  ------------ Temporary Construction site Ends Here ------------ / / / / / / / / / / / / / / -->
+
+
+
+	<!-- ################################################################################################################################ -->
+
+
+
+<!-- ========- INBOX MODAL -=========== -->
+
+
+ <!-- This JS Code opens the Edit User Profile Modal -->
+   <c:if test="${showInboxModal}">
+     
+     <script>
+   
+          $(document).ready(function() { $('#Inbox').modal('show'); });
+ 
+     </script>
+     
+   </c:if>
 
    <!-- This JS Code opens the Edit User Profile Modal -->
    <c:if test="${openEditModal}">
