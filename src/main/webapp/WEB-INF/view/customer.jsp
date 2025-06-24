@@ -106,19 +106,18 @@ if(session == null || session.getAttribute("fullName") == null){
 <!-- =========================================================================================================================== -->
 <!-- ==============================================MODAL'S(POP-UP WINDOWS)====================================================== -->
 
-
 <!-- ========- USER INFO MODAL -======= -->
 
 	<!-- Modal(pop-up window) for the User Info -->
 	<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
 
-		<div class="modal-dialog" role="document">
+		<div class="modal-dialog" role="document" >
 
 			<div class="modal-content">
 
-				<div class="modal-header">
+				<div class="modal-header" style="background: #C9B194;">
 
-					<h5 class="modal-title" id="userModalLabel">User Information</h5>
+					<h5 class="modal-title" id="userModalLabel" style="color: #4a403a; font-family: 'Pacifico', cursive; font-style: normal;">User Information</h5>
 
 				</div>
 
@@ -130,18 +129,18 @@ if(session == null || session.getAttribute("fullName") == null){
 					<c:when test="${not empty sessionScope.fullName && not empty sessionScope.email && not empty sessionScope.phoneNo }">
 					
 					<p>
-						<strong>Name:</strong>
-					    <span style="font-weight: 600; color: #000;"> <c:out value="${sessionScope.fullName}" /> </span>
+						<strong style="color: #4a403a; font-family: 'Pacifico', cursive; font-style: normal;">Name:</strong>
+					    <span style="font-weight: 600; color: #A08963;"> <c:out value="${sessionScope.fullName}" /> </span>
 					</p>
 					
 					<p>
-						<strong>Email:</strong>
-						<span style="font-weight: 600; color: #000;"> <c:out value="${sessionScope.email}" /> </span>
+						<strong style="color: #4a403a; font-family: 'Pacifico', cursive; font-style: normal;">Email:</strong>
+						<span style="font-weight: 600; color: #A08963;"> <c:out value="${sessionScope.email}" /> </span>
 					</p>
 					
 					<p>
-						<strong>Phone:</strong>
-						<span style="font-weight: 600; color: #000;"> <c:out value="${sessionScope.phoneNo}" /> </span>
+						<strong style="color: #4a403a; font-family: 'Pacifico', cursive; font-style: normal;">Phone:</strong>
+						<span style="font-weight: 600; color: #A08963;"> <c:out value="${sessionScope.phoneNo}" /> </span>
 					</p>
 					
 					</c:when>
@@ -160,16 +159,41 @@ if(session == null || session.getAttribute("fullName") == null){
 				</div>
 
 
-				<div class="modal-footer">
+				<div class="modal-footer" style="display: flex; justify-content: space-between;">
 
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
-                 <form name="logOutForm" method="get" action="${pageContext.request.contextPath}/logOutController" style="display:inline;">
+                    <form method="get" action="${pageContext.request.contextPath}/openEditUserProfileModal">
+                                           
+                           <button type="submit" class="btn btn-primary" title="Edit Profile" style="position: relative; left: -97px;">
+						
+						      <i class="fas fa-pencil-alt"></i>
+						
+					       </button>
+                                       
+                    </form>
 
-					<button type="submit" class="btn btn-danger"> Logout </button>
 					
-				</form>	
 
+					<div style="margin-right: -97px; display: flex; gap: 10px;">
+					
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">
+						
+						     Close
+						     
+						</button>
+
+						<form name="logOutForm" method="get" action="${pageContext.request.contextPath}/logout" style="display: inline;">
+						
+							<button type="submit" class="btn btn-danger">
+							   
+							   Logout
+							
+							</button>
+							
+						</form>
+						
+					</div>
+					
 				</div>
 
 
@@ -179,6 +203,18 @@ if(session == null || session.getAttribute("fullName") == null){
 
 	</div> <!-- Closing tag of the User-info Modal -->
 
+
+
+   <!-- This JS Code opens the Edit User Profile Modal -->
+   <c:if test="${openEditModal}">
+     
+     <script>
+   
+          $(document).ready(function() { $('#editProfileModal').modal('show'); });
+ 
+     </script>
+     
+   </c:if>
 
 
 <!-- ################################################################################################################################ -->
