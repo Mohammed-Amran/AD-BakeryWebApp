@@ -509,7 +509,196 @@ font-size:19px;
 
 <!-- ################################################################################################################################ -->
 
+<!-- Inbox Modal -->
+	<div class="modal fade" id="Inbox" tabindex="-1" role="dialog" aria-hidden="true">
 
+		<div class="modal-dialog modal-lg" role="document">
+
+			<div class="modal-content">
+
+				<div class="modal-header">
+
+					<h3 class="modal-title" style="font-weight: bold;">Your Orders</h3>
+
+				</div>
+
+				<div class="modal-body" style="display: flex; justify-content: space-between; gap: 20px;">
+
+
+
+                   <div class="table-responsive">
+				
+				<table class="table table-bordered table-hover table-striped order-table">
+					
+					<thead class="thead-dark">
+						
+						<tr>
+						
+							<th>Order ID</th>
+							
+							<th>User Info</th>
+							
+							<th>Item Info</th>
+							
+							<th>Total Price</th>
+							
+							<th>Delivery Info</th>
+							
+							<th>Status</th>
+							
+						</tr>
+						
+					</thead>
+					
+					
+					<tbody>
+					
+						<c:forEach var="order" items="${sessionScope.retrievedOrders}">
+						
+						 <c:if test="${order.status eq 'delivered'}">
+						
+							<tr>
+							
+								<td><strong>${order.orderId}</strong></td>
+								
+								<td>
+								
+									<div class="dropdown">
+									
+										
+										<button class="btn btn-outline-secondary btn-sm dropdown-toggle w-100"
+											    type="button" data-toggle="dropdown">
+											    
+											    User Info
+											    
+									    </button>
+									    
+										<div class="dropdown-menu p-2">
+											
+											<div>
+											
+												<strong>User ID:</strong> ${order.userId}
+												
+											</div>
+											
+											<div>
+											
+												<strong>Phone:</strong> ${order.userPhoneNo}
+												
+											</div>
+											
+										</div>
+										
+									</div>
+									
+									
+								</td>
+								
+								<td>
+									<div class="dropdown">
+										
+										<button class="btn btn-outline-secondary btn-sm dropdown-toggle w-100"
+											    type="button" data-toggle="dropdown">Item Info</button>
+										
+										<div class="dropdown-menu p-2">
+											
+											<div>
+												<strong>Item ID:</strong> ${order.itemId}
+											</div>
+											
+											<div>
+												<strong>Name:</strong> ${order.itemName}
+											</div>
+											
+											<div>
+												<strong>Qty:</strong> ${order.selectedQuantity}
+											</div>
+											
+										</div>
+										
+									</div>
+									
+								</td>
+								
+								
+								<td class="text-center text-danger font-weight-bold price-cell"> ${order.itemPriceSum}  IQD  </td>
+								
+								
+								<td>
+								
+									<div class="dropdown">
+									
+										<button class="btn btn-outline-secondary btn-sm dropdown-toggle w-100"
+											    type="button" data-toggle="dropdown">
+											    
+											    Delivery Info
+											    
+									    </button>
+									    
+										<div class="dropdown-menu p-2">
+											
+											<div>
+											
+												<strong>Location:</strong> ${order.location}
+												
+											</div>
+											
+											<div>
+											
+												<strong>Address:</strong> ${order.deliveryAddress}
+												
+											</div>
+											
+										</div>
+										
+									</div>
+									
+								</td>
+								
+								<td class="text-center">
+  
+                                      ${order.status}
+                                              
+                                 <img src="${pageContext.request.contextPath}/images/gifs/delivered.gif" alt="Inbox" style="width: 40px; height: 40px;">                              
+                                        
+                                  
+                                    
+                                    
+                               </td>
+
+								
+							</tr> 
+							
+							</c:if>
+
+
+					
+
+						</c:forEach>
+						
+					</tbody>
+					
+				</table>
+				
+			</div>
+					
+					
+
+				</div> <!-- closing tag of the modal body -->
+
+
+				<div class="modal-footer">
+
+					<button type="button" class="btn btn-secondary" data-dismiss="modal"> Close </button>
+
+				</div>
+
+
+			</div>
+
+		</div>
+
+	</div> <!-- Closing Tag of the Inbox Modal -->
 
 
 
