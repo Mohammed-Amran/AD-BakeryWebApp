@@ -24,6 +24,46 @@ import com.example.model.*;
 public class orderController {
 
 
+@GetMapping("/accessInboxModal")
+	protected String accessChartModal(HttpServletRequest request, Model model) {
+		
+		
+		//Instantiating a session object:
+	    HttpSession session = request.getSession(false);
+		
+	    //Instantiating an object from the 'DaoOrders' class:
+		  DaoOrders ordersObj = new DaoOrders();
+		    
+		  int userId = (Integer) session.getAttribute("userId");
+		  
+		  try {
+			
+			  List<Orders> retrievedItemsIntoInbox = ordersObj.getOrders(userId);
+		      
+		      session.setAttribute("retrievedOrderedItems", retrievedItemsIntoInbox);
+		      
+		      // Update inbox counter
+		      int orderedItemsCounter = ordersObj.getOrderedItemsCount(userId);
+			    
+			  session.setAttribute("inboxCounter", orderedItemsCounter);
+			  
+			  
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		
+		
+		
+		//This Triggers opening the Inbox Modal
+		model.addAttribute("showInboxModal", true);
+		
+		return "view/customer";
+		
+	}//closing brace of the 'accessChartModal()' method.
+
+
+
 //This method retrieves the selected items from the checkout modal & inserts them into the 'orders' table.
 @PostMapping("/orderItems")	
  protected String setOrder(@RequestParam Map<String, String> req, HttpServletRequest request, ModelAndView model) {

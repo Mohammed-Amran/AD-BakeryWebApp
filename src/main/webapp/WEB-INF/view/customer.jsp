@@ -94,7 +94,8 @@ if(session == null || session.getAttribute("fullName") == null){
 			
             <a href="" style="float: right;" data-toggle="modal" data-target="#cart"> <i class="fas fa-shopping-cart"></i> <span class="cart-items"> (<c:if test="${empty sessionScope.cartCounter }"> 0 </c:if> ${sessionScope.cartCounter} ) </span> </a> 
 
-            <a href="" style="float: right;" data-toggle="modal" data-target="#Inbox"> <i class="fas fa-box-open"></i> <span class="inbox-items"> ( 0 ) </span> </a>
+         
+<a href="${pageContext.request.contextPath}/accessInboxModal" id="box" style="float: right;" > <i class="fas fa-box-open" ></i> <span class="inbox-items"> ( <c:if test="${empty sessionScope.inboxCounter }"> 0 </c:if> ${sessionScope.inboxCounter} ) </span> </a>
 
 		</div>
 
