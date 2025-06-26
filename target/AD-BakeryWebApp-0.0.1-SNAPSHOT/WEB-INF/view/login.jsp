@@ -37,7 +37,7 @@
 }
 
 
-/Animation and glowing of the login & cancel buttons - and the email & pass inputs./
+/*Animation and glowing of the login & cancel buttons - and the email & pass inputs.*/
 
 .login-btn {
     padding: 10px;
