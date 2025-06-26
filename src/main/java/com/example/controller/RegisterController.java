@@ -1,168 +1,296 @@
 package com.example.controller;
 
-import java.io.IOException;
-import java.util.regex.Pattern;
+import java.util.List;
+import java.util.Map;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.DAO.*;
 import com.example.model.*;
 
-@WebServlet("/registerController")
-public class RegisterController extends HttpServlet {
 
-	// Instantiating an object from the RequestDispatcher class.
-	RequestDispatcher disp;
-	
-	
-	
-	
-
-	//This 'doGet()' method below is to handle the Request from the 'login.jsp' page
-	//that just wants to access the 'register.jsp' page via the 'href' link.
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-		disp = req.getRequestDispatcher("/WEB-INF/view/register.jsp");
-		disp.forward(req, resp);
-
-	}// closing brace of the 'doGet()' method.
+@Controller
+public class RegisterController {
 
 	
+	//This method forwards the user from 'viewerOnly' page to 'register' page.
+	@RequestMapping("/accessRegisterPage")
+	protected String accessLoginPage() {
+		
+		return "view/register";
+		
+	} //closing brace of the 'accessLoginPage()' method.
 	
 	
 	
 	
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		//Saving the user inputs into variables.
-		String fullName = req.getParameter("fullName");
-		String email = req.getParameter("email");
-		String password = req.getParameter("password");
-		String phoneNo = req.getParameter("phoneNo");
-		
-		
-		
-		
-	   //Checking the correctness of the email & phone number:
-		String emailError = null;
-		String phoneNoError = null;
-		
-		
-		//1:Instantiating an object from the Auth class.
-	    Auth authObj = new Auth();
-		
-		
-		if( !authObj.isEmailValid(email) ) {
-			
-			emailError = "Invalid Email Format!";
-		}
-		
-		if( !authObj.isPhoneNumValid(phoneNo) ) {
-			
-			phoneNoError = "Invalid Phone No. Format";
-		}
+//##############################################################################################	
 	
+	
+	//This method takes the user from 'login' page to 'register' page
+	@GetMapping("/goToRegisterFromLogin")
+	protected String goToRegisterPage() {
+			
+		 return "view/register";
+		 
+	}//closing brace of the 'goToRegister()' method.
+	
+	
+	
+
+//##############################################################################################	
+	
+	
+	
+	//This method registers the user & forwards it to 'customer' page.
+	@PostMapping("/registerUser")
+	protected String registerUser(@RequestParam Map<String, String> req, Model model, HttpServletRequest request ) {
 		
-		if(emailError != null || phoneNoError != null) {
-			
-			//so here, if the one of the Email & PhoneNum (or both) weren't correct!
-			//user will be returned back to the register.jsp page.
-			
-			
-			
-			//setting the already inputed fields, so that user do not required to re-enter them!			
-			req.setAttribute("fullName", fullName);
-			req.setAttribute("email", email);
-			req.setAttribute("password", password);
-			req.setAttribute("phoneNo", phoneNo);
-			
-			
-			req.setAttribute("emailError", emailError);
-			req.setAttribute("phoneError", phoneNoError);
-			
-			disp = req.getRequestDispatcher("/WEB-INF/view/register.jsp");
-			disp.forward(req, resp);
-			
-		}
-		else {
+		String destination = "";
+		
+		String fullName = req.get("fullName");
+		String email = req.get("email");
+		String password = req.get("password");
+		String phoneNo = req.get("phoneNo");
+		
+		
+
+		   //Checking the correctness of the email & phone number:
+			String emailError = null;
+			String phoneNoError = null;
 			
 			
-			//If the email & phoneNo were fine!, then:
+			//1:Instantiating an object from the Auth class.
+			Auth authObj = new Auth();
 			
-			//Create an object from the 'UserRegistration' class:
-			User userObj = new User();
-			
-			userObj.setFullName(fullName);
-			userObj.setEmail(email);
-			userObj.setPassword(password);
-			userObj.setPhoneNo(phoneNo);
 			
 				
+			if( !authObj.isEmailValid(email) ) {
+				
+				emailError = "Invalid Email Format!";
+			}
 			
-			//Saving the user info into the database:
+			if(!authObj.isPhoneNumValid(phoneNo)) {
+				
+				phoneNoError = "Invalid Phone No. Format";
+			}
+		
 			
-			//1st: Instantiating an object from the DAO class:
-			DaoUsers dao = new DaoUsers();
+			if(emailError != null || phoneNoError != null) {
+				
+				//so here, if the one of the Email & PhoneNum (or both) weren't correct!
+				//user will be returned back to the register.jsp page.
+				
+				//setting the already inputed fields, so that user do not required to re-enter them!			
+				model.addAttribute("fullName", fullName);
+				model.addAttribute("email", email);
+				model.addAttribute("password", password);
+				model.addAttribute("phoneNo", phoneNo);
+				
+				
+				model.addAttribute("emailError", emailError);
+				model.addAttribute("phoneError", phoneNoError);
+				
+				destination  = "view/register";
+				
+			}
+			else {
+				
+				
+				//If the email & phoneNo were fine!, then:
+				
+				//Instantiating an object from the 'UserRegistration' class:
+				Users userObj = new Users();
+				
+				
+				userObj.setFullName(fullName);
+				userObj.setEmail(email);
+				userObj.setPassword(password);
+				userObj.setPhoneNo(phoneNo);
+				
+					
+				
+				//Saving the 'userObj' object info's into the 'users' table in the DB:
+				
+				//1st: Instantiating an object from the DAO class:
+				DaoUsers dao = new DaoUsers();
+				
+				
+				//Passing the 'userObj' object into the insertUser method:
+			    boolean insertSuccess =	dao.insertUser(userObj);
+				
+			    
+			    //So, if the Insertion success:
+			    if(insertSuccess) {
+			    	
+			    	//Initializing a Session Object:
+			    	HttpSession session = request.getSession(true); //This is exactly same as: HttpSession session = req.getSession();
+			       
+			    	
+			    	//Setting the essential user-info's into the session object! we'll require them for further steps:
+			    	session.setAttribute("fullName", fullName);
+			    	session.setAttribute("email", email);
+			    	session.setAttribute("password", password);
+			    	session.setAttribute("phoneNo", phoneNo);
+			    	
+			    	
+			    	//Instantiating an object from the 'DaoUsers' class - in order to access the 'users' table.
+					DaoUsers daoObj = new DaoUsers();
+			    	
+			    	//Retrieving the users ID from the 'users' table in the DB:
+			    	int userId = daoObj.retrieveId(email);
+			    	
+			    	session.setAttribute("userId", userId);
+			    	
+	    	
+			    	//Setting the session time-out to 2 hours:
+			    	session.setMaxInactiveInterval(2 * 60 * 60);
+			    	
+			    	
+			    	try {
+			    		
+			    	
+				    	
+	                    //1st: Retrieving the items-number in the 'cartItems' table.	
+			    			    		
+			    		//I: Instantiating an object from the 'daoCart' class.
+			    		DaoCart daoCartObj = new DaoCart();
+			    		
+			    		
+			    		//II: getting the items-numbers via the 'getCartItemCount()' method.
+						int itemsCount = daoCartObj.getCartItemCount(userId);
+						
+						
+						//III: saving the itemsCount into session Scope.
+						session.setAttribute("cartCounter", itemsCount); 
+			    		
+			    	
+				//================================================================================================		
+						
+						
+						
+				  //2nd: Retrieving the items from the 'cartItems' table
+						
+						
+						//I: getting the items for the specific userId via the 'getCartItemsByUserId()' method.
+						List<CartItems> retrievedItems = daoCartObj.getCartItemsByUserId(userId);
+				    	
+						
+						//II: saving the retrieved items into session scope.
+				    	session.setAttribute("retrievedCartItems", retrievedItems);
+						
+			    		
+				//================================================================================================
+				    	
+				    	
+				  //3rd: Retrieving the bread items from the 'breads' tables.
+				    	
+				    	
+				    	 //I: Instantiating an object from the 'DaoBreads' class.
+			    		 DaoBreads breadsObj = new DaoBreads();
+			        	
+			    		 
+			    		 //II: getting the bread items via the 'getBreads()' method.
+			        	 List<Breads> retrievedBreads = breadsObj.getBreads();
+			    			
+			        	 //III: saving the retrieved breads into the session scope:
+			        	 session.setAttribute("retrievedBreads", retrievedBreads);
+			        	 
+			        	 //IV: this allows the 'when' tag in the 'customer' page to loop through the 'retrievedBreads'
+			        	 session.setAttribute("showCategory", "Breads");
+			        	 
+			        	 
+			        	//Instantiating an object from the 'DaoUsers' class - in order to access the 'users' table.
+						DaoOrders ordersObj = new DaoOrders();
+			        	 
+			        	 List<Orders> retrievedItemsIntoInbox = ordersObj.getOrders(userId);
+			     		
+			     		session.setAttribute("retrievedOrderedItems", retrievedItemsIntoInbox);
+			     		
+			     		
+			     		 int orderedItemsCounter = ordersObj.getOrderedItemsCount(userId);
+			     	    
+			     	    session.setAttribute("inboxCounter", orderedItemsCounter);
+			        	 
+			     	    
+			     	 //--------------Notifications------------------------------------------
+				     	 
+				     	 //I. Instantiating an object from the 'DaoNotifications' class:
+				     	 DaoNotifications notiObj = new DaoNotifications();
+				     	 
+				     	 
+				     	 //II. Calling the 'getUnReadNotifications()' method and saving into a list of type 'Notifications':
+				     	 List<Notifications> unReadNotifications = notiObj.getUnReadNotifications(userId, false);
+				     	 
+				     	 session.setAttribute("unReadNotificationsList", unReadNotifications);
+				     	 
+				     	 
+				     	 //III. Retrieve the 'unReadNotificationsCounter':
+				     	 int unReadNotificationsCounter = notiObj.getUnreadNotificationsCount(userId, false);
+				     	 
+				     	 session.setAttribute("unReadNotificationsCounter", unReadNotificationsCounter);
+				     	 
+				     	 //--------------------------------------------------------------------
+			     	    
+			     	    
+						
+					} 
+			    	catch (Exception e) {
+			    		
+			    		e.printStackTrace();
+						
+					}
+			    	
+			    	
+			    	
+			    	//Finally, Forwarding the user to the main view(customerView):
+					destination = "view/customer";
+			    	
+			    }
+			    else {
+			    	
+			    	//So, if the insertion failed! this part will run
+			    	
+			    	//setting an error message!
+			    	model.addAttribute("insertingError", "Failed to Register, Please try again!");
+			    	
+			    	destination = "view/register";
+			    	
+			    }
+				
+				
+				
+			}//closing brace of the else.
 			
-			//Passing the userObj object into the insertUser method:
-		    boolean insertSuccess =	dao.insertUser(userObj);
-			
-		    
-		    //So, if the Insertion success:
-		    if(insertSuccess) {
-		    	
-		    	//Initializing the Session Object:
-		    	HttpSession session = req.getSession(true); //Exactly same as: HttpSession session = req.getSession();
-		       
-		    	
-		    	//Setting the essential user-info's to the session object! would be required for further steps:
-		    	session.setAttribute("fullName", fullName);
-		    	session.setAttribute("email", email);
-		    	session.setAttribute("phoneNo", phoneNo);
-		    	
-		    	
-		    	//Setting the session time-out to 2 hours:
-		    	session.setMaxInactiveInterval(2 * 60 * 60);
-		    	
-		    	
-		    	
-		    	//Finally, Forwarding the user to the main view(customerView):
-				disp = req.getRequestDispatcher("/WEB-INF/view/customer.jsp");
-				disp.forward(req, resp);
-		    	
-		    }
-		    else {
-		    	
-		    	//setting an error message!
-		    	req.setAttribute("insertingError", "Failed to Register, Please try again!");
-		    	
-		    	disp = req.getRequestDispatcher("/WEB-INF/view/register.jsp");
-		    	disp.forward(req, resp);
-		    	
-		    }
 			
 			
-			
-		}//closing brace of the else.
+			return destination;
+				
 		
 		
+	}//closing brace of the 'registerUser()' method.
+	
+	
+	
+	
+//##############################################################################################
+	
+	
+	//This method takes the user from 'register' page back to the 'viewerOnly' page.
+	@GetMapping("/backToViewOnlyFromRegistration")
+	protected String backToLogin() {
 		
+		return "view/viewerOnly";
 		
-		
-		
-		
-		
-		
-		
-	}//closing brace of the 'doPost()' method.
+	}
 	
 	
 	
@@ -172,6 +300,4 @@ public class RegisterController extends HttpServlet {
 	
 	
 	
-	
-	
-}// closing brace of the class.
+}//closing brace of the class.
