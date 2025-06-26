@@ -4,7 +4,7 @@
 <!-- Below is Taglib directive -->	
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 	
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 
 
@@ -52,6 +52,39 @@
  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
  
  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+ <!-- Load Google Charts -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!-- Prepare the chart -->
+    <script type="text/javascript">
+    
+        google.charts.load("current", {packages:["corechart"]});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Item Name', 'Count'],
+                <c:forEach var="item" items="${ordersListForAnalytics}" varStatus="status">
+                    ['${item.itemName}', ${item.itemCount}]${!status.last ? ',' : ''}
+                </c:forEach>
+            ]);
+            
+            var options = {
+                title: 'Items Ordered on Selected Date',
+                pieHole: 0.5,
+                width: 800,
+                height: 500
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+            chart.draw(data, options);
+        }
+        
+    </script>
+
+
 
 	
 	
@@ -134,7 +167,7 @@ color: #DBDBDB;
   text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff;
 }
 
-/*=======================================================================*/
+/=======================================================================/
 
 
 /* ===== CATEGORY BUTTONS ===== */
@@ -163,7 +196,7 @@ color: #DBDBDB;
   transform: translateY(-3px);
 }
 
-/*=======================================================================*/
+/=======================================================================/
 
 
 
@@ -205,7 +238,7 @@ font-size:19px;
 
 
 
-/*=======================================================================*/
+/=======================================================================/
 
 .menu-items {
 	
@@ -296,7 +329,7 @@ font-size:19px;
 }
 
 
-/*=======================================================================*/
+/=======================================================================/
 
 
 /* CSS code of the cart +,-,trash buttons*/
@@ -381,7 +414,7 @@ font-size:19px;
     padding-right: 10px; /* Prevents content from hiding behind scrollbar */
 }
 
-/*============================================================================*/
+/============================================================================/
 
 .order-table-wrapper {
   width: 100vw;              
@@ -453,9 +486,13 @@ font-size:19px;
 
 
 		<div class="navtop" id="mynavTop" style="background-color: #C9B194;">
+		
 
-           
-             <a href="" id="box" style="float: right;" data-toggle="modal" data-target="#Inbox">
+          
+
+
+          
+           <a href="" id="box" style="float: right;" data-toggle="modal" data-target="#Inbox">
               
              <img src="${pageContext.request.contextPath}/images/gifs/deliveredOrders.gif" alt="Inbox" style="width: 40px; height: 40px;">
  
@@ -478,9 +515,9 @@ font-size:19px;
              <img src="${pageContext.request.contextPath}/images/gifs/editItems.gif" alt="Inbox" style="width: 40px; height: 40px;">
          
            </a>
+
            
-           
-		
+           		
 		</div>
 
 
@@ -491,48 +528,127 @@ font-size:19px;
 <!-- ==============================================MODAL'S(POP-UP WINDOWS)====================================================== -->
 
 
-<!-- ========- USER INFO MODAL -======= -->
+<!-- ============--- Analytics Modal ---============ -->
 
-	<!-- Modal(pop-up window) for the User Info -->
-	<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
+<!-- This JS Code opens the Edit User Profile Modal -->
+   <c:if test="${openAnalyticsModal}">
+     
+     <script>
+   
+          $(document).ready(function() { $('#openAnalyticsModal').modal('show'); });
+ 
+     </script>
+     
+   </c:if>
 
-		<div class="modal-dialog" role="document" >
 
+
+
+    <!-- Modal for seeing sales Info -->
+	<div class="modal fade" id="openAnalyticsModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
+		
+		<div class="modal-dialog modal-lg" role="document" style="max-width: 900px;">
+			
 			<div class="modal-content">
-
-				<div class="modal-header" style="background: #C9B194;">
-
+				
+				<div class="modal-header" style="background: #C9B194; padding: 20px;">
 					
-				</div>
-
-				<div class="modal-body">
-
-                   
+					<h5 class="modal-title" id="userModalLabel" style="color: #4a403a; font-family: 'Pacifico', cursive; font-size: 24px;">
 					
-
-                     
-
+					   Sales Analytics
+						
+				    </h5>
+				    
 				</div>
 
+				<div class="modal-body" style="padding: 25px;">
 
-				<div class="modal-footer">
 
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
-                 
+					<form id="analyticsForm" method="post" action="${pageContext.request.contextPath}/retrieveOrdersForAnalytics">
 
+						<label for="orderDate">Select Date:</label> 
+						
+						<input type="date" id="orderDate" name="orderDate" required pattern="\d{4}-\d{2}-\d{2}" title="Please use YYYY-MM-DD format">
+						
+						<button type="submit">Retrieve Orders</button>
+					
+					</form>
+
+
+
+					<div id="donutchart" style="width: 100%; height: 500px; margin: auto;"></div>
+							
+							
+									
+				
 				</div>
 
-
+				<div class="modal-footer" style="padding: 20px; display: flex; justify-content: flex-end;">
+					
+					<button type="button" class="btn btn-default" data-dismiss="modal" style="padding: 8px 20px; font-size: 16px;">
+					
+					   Cancel
+					   
+					</button>
+				
+				</div>
+			
 			</div>
-
+		
 		</div>
-
+	
 	</div> <!-- Closing tag of the User-info Modal -->
 
 
 
+<script>
+  document.getElementById('analyticsForm').addEventListener('submit', function (e) {
+    const input = document.getElementById('orderDate');
+    const value = input.value.trim(); // Avoid empty spaces
+
+    // Basic blank-check
+    if (!value || value === "--") {
+      alert("Please select a valid date before submitting.");
+      e.preventDefault(); // Stop form from submitting
+      return;
+    }
+
+    // If format is dd-mm-yyyy, convert it
+    const parts = value.split('-');
+    if (parts.length === 3 && parts[2].length === 4) {
+      const [dd, mm, yyyy] = parts;
+      if (yyyy.length === 4 && mm.length === 2 && dd.length === 2) {
+        input.value = ${yyyy}-${mm}-${dd};
+      }
+    }
+  });
+</script>
+
+
+
+
+
+
 <!-- ################################################################################################################################ -->
+
+
+
+<!-- ========- INBOX MODAL -=========== -->
+
+<!-- 
+<c:if test="${not empty sessionScope.showInboxModal}">
+    <script>
+        $(function() {
+            $('#Inbox').modal('show');
+        });
+    </script>
+    <c:remove var="showInboxModal" scope="session" />
+</c:if>
+
+
+-->
+
 
 <!-- Inbox Modal -->
 	<div class="modal fade" id="Inbox" tabindex="-1" role="dialog" aria-hidden="true">
@@ -543,7 +659,7 @@ font-size:19px;
 
 				<div class="modal-header">
 
-					<h3 class="modal-title" style="font-weight: bold;">Your Orders</h3>
+					<h3 class="modal-title" style="font-weight: bold;">Delivered Orders</h3>
 
 				</div>
 
@@ -724,6 +840,10 @@ font-size:19px;
 		</div>
 
 	</div> <!-- Closing Tag of the Inbox Modal -->
+
+
+
+<!-- ################################################################################################################################ -->
 
 
 
@@ -922,9 +1042,7 @@ font-size:19px;
 
 
 
-							
-			
-			<!-- Status Update Modal for this order -->
+							<!-- Status Update Modal for this order -->
 							<div class="modal fade" id="statusModal${order.orderId}" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel${order.orderId}" aria-hidden="true">
 								
 								<div class="modal-dialog" role="document">
@@ -956,7 +1074,8 @@ font-size:19px;
 												
 												<input type="hidden" name="orderId" value="${order.orderId}" />
 												<input type="hidden" name="userId" value="${order.userId}" />
-												
+												<input type="hidden" name="itemName" value="${order.itemName}" />
+												<input type="hidden" name="deliveryAddress" value="${order.deliveryAddress}" />
 
 												
 												<div class="form-group">
@@ -1008,6 +1127,8 @@ font-size:19px;
 				</table>
 				
 			</div>
+			
+			
 			
 			
 			
