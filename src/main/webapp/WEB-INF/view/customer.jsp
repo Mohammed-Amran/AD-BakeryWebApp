@@ -1,13 +1,15 @@
 <%@ page language="java" session="true" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	
+<!-- Below is Taglib directive -->	
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 	
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>	
 
+<!-- This Scriptlet code checks the session expiration -->
 <%
-
 
 if(session == null || session.getAttribute("fullName") == null){
 	
@@ -30,6 +32,10 @@ if(session == null || session.getAttribute("fullName") == null){
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+
 
 <%-- Link to the CSS file for this customer view page --%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/customerViewStyle.css">
@@ -43,9 +49,10 @@ if(session == null || session.getAttribute("fullName") == null){
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/CheckoutModalStyle.css">
 
 
-<%-- Link to google fonts --%>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-	rel="stylesheet">
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 	
 	
 <link rel = "shortcut icon" href="favicon.ico" type="image/x-icon">
@@ -58,25 +65,370 @@ if(session == null || session.getAttribute("fullName") == null){
  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
  
  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
- <script src="mycart.js"></script>
- <script src="myscript.js"></script>	
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+ 
+
 	
+<style type="text/css">
+
 	
+/* ===== BASE STYLES ===== */
+body {
+  font-family: "Pacifico", cursive;
+  font-style: normal;
+  margin: 0;
+  color: #885539;
+}
+
+#heading-title:hover{
+
+text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff;
+
+}
+
+#person{
+
+ color: #4a403a;
+}
+
+#person:hover{
+
+color: #DBDBDB;
+}
+
+
+#cartBasket{
+
+color: #4a403a;
+}
+
+#cartBasket:hover{
+
+color: #DBDBDB;
+}
+
+
+#box{
+
+color: #4a403a;
+}
+
+#box:hover{
+
+color: #DBDBDB;
+}
+
+
+
+
+/* ===== MENU CONTAINER ===== */
+.menu-container {
+  background-color: #A57A5A;
+  padding: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 8px;
+}
+
+.menu-title {
+  text-align: center;
+  font-size: 46px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+   transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.menu-title:hover {
+
+  transform: translateY(-10px) scale(1.05);
+  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff;
+}
+
+/=======================================================================/
+
+
+/* ===== CATEGORY BUTTONS ===== */
+.category-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.category-btn {
+  background: #F5F5DD;
+  color: #885539;
+  border: none;
+  padding: 12px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.category-btn:hover {
+  background: #885539;
+  color: #F5F5DD;
+  transform: translateY(-3px);
+}
+
+/=======================================================================/
+
+
+
+/* ===== MODAL STYLES ===== */
+
+
+.modal-header {
+  margin-bottom: 20px;
+  background-color: #C9B194;
+  
+}
+
+
+.modal-title {
+  font-size: 24px;
+  color: #4a403a;
+  margin: 0;
+   
+}
+
+.modal-body {
+  margin-bottom: 20px;
+}
+
+.modal-body p{
+
+font-size:19px; 
+}
+
+
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+
+
+
+
+/=======================================================================/
+
+.menu-items {
 	
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+ 
+}
+
+
+
+
+.menu-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+	
+
+/* Card Styles */
+.card {
+    flex: 1 1 calc(33.33% - 20px);
+    background-color: #C9B194;
+    border: 2px solid #A08963;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 350px; 
+    padding: 10px;
+}
+
+
+
+
+
+.card-content img {
+    width: 100%;
+    height: 200px; 
+    object-fit: cover; 
+    border-radius: 5px;
+    display: block; 
+}
+
+.card-content h1 {
+    font-family: 'Pacifico', cursive; 
+    font-style: normal;
+    font-size: 30px;
+    margin: 10px 0;
+    color: #4a403a;
+}
+
+.card-action {
+    font-family: 'Pacifico', cursive; 
+    font-style: normal;
+    margin-top: auto; 
+    text-align: center;
+}
+
+.card-action button {
+    background-color: #A08963;
+    color: #DBDBDB;
+    border: none;
+    padding: 10px 20px;
+    font-size: 22px;
+    border-radius: 5px solid #344C3D;
+    cursor: pointer;
+}
+
+.card-action button:hover {
+    background-color: white;
+    color: #A57A5A;
+      
+}
+
+#itemDropdown {
+    width: 250px;          
+    height: 45px;        
+    font-size: 16px;    
+    padding: 8px 12px;   
+}
+
+
+/=======================================================================/
+
+
+/* CSS code of the cart +,-,trash buttons*/
+
+.cart-item-header, .cart-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.item-name, .item-quantity, .item-price, .item-actions {
+    flex: 1;
+    text-align: center;
+}
+
+.item-actions {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-quantity, .btn-delete {
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Add transition for smooth animation */
+    transition: all 0.2s ease-in-out;
+    
+    /* Add a subtle shadow for depth */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-quantity {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.btn-delete {
+    font-size: 14px;
+}
+
+/* Hover effects */
+.btn-increase:hover {
+    background-color: #218838 !important; /* Slightly darker green */
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.btn-decrease:hover {
+    background-color: #e0a800 !important; /* Slightly darker yellow */
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.btn-delete:hover {
+    background-color: #c82333 !important; /* Slightly darker red */
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Active/pressed effect */
+.btn-increase:active, 
+.btn-decrease:active, 
+.btn-delete:active {
+    transform: translateY(1px) scale(0.98);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+
+
+/* Checkout modal css code for the items list */
+.items-list {
+    max-height: 300px;  /* Adjust height as needed */
+    overflow-y: auto;   /* Adds vertical scroll */
+    padding-right: 10px; /* Prevents content from hiding behind scrollbar */
+}
+
+
+
+
+
+</style>
+
+
 
 </head>
 
 
 <!--=========================-- Body of the WebPage --========================-->
 
-<body>
+<body style="font-family: ''Pacifico', cursive;
+
+             font-style: normal;
+
+             background: linear-gradient(rgba(255, 255, 255, 0.5)), 
+             
+             url('https://hicaps.com.ph/wp-content/uploads/2022/12/bakery-products.jpg') no-repeat center center fixed;
+  
+             background-size: cover;
+     
+             margin: 0;
+  
+             height: 100vh; ">
+
+
 
 <!-- if adding item into the Cart failed! this message will be shown -->
 <c:if test="${not empty sessionScope.addToCartErrorMessage}">
 
     <script type="text/javascript">
     
-      alert('${sessionScope.addToCartMessage}');
+      alert('${sessionScope.addToCarErrorMessage}');
       
     </script>
 
@@ -84,19 +436,21 @@ if(session == null || session.getAttribute("fullName") == null){
 
 
 
-
 	<!--  N A V I G A T I O N   B A R  -->
 	<div class="topnav" id="myTopnav">
 
 
-		<div class="navtop" id="mynavTop">
+		<div class="navtop" id="mynavTop" style="background-color: #C9B194;">
+		
+		 
 
-            <a href="" style="float: right;" data-toggle="modal" data-target="#userModal"> <i class="fas fa-user"></i> </a> 
+            <a href="" id="person" style="float: right;" data-toggle="modal" data-target="#userModal"> <i class="fas fa-user" ></i> </a> 
 			
-            <a href="" style="float: right;" data-toggle="modal" data-target="#cart"> <i class="fas fa-shopping-cart"></i> <span class="cart-items"> (<c:if test="${empty sessionScope.cartCounter }"> 0 </c:if> ${sessionScope.cartCounter} ) </span> </a> 
+            <a href="" id="cartBasket" style="float: right;" data-toggle="modal" data-target="#cart"> <i class="fas fa-shopping-cart"  ></i> <span class="cart-items"> (<c:if test="${empty sessionScope.cartCounter }"> 0 </c:if> ${sessionScope.cartCounter} ) </span> </a> 
 
-         
-<a href="${pageContext.request.contextPath}/accessInboxModal" id="box" style="float: right;" > <i class="fas fa-box-open" ></i> <span class="inbox-items"> ( <c:if test="${empty sessionScope.inboxCounter }"> 0 </c:if> ${sessionScope.inboxCounter} ) </span> </a>
+            <a href="${pageContext.request.contextPath}/accessInboxModal" id="box" style="float: right;" > <i class="fas fa-box-open" ></i> <span class="inbox-items"> ( <c:if test="${empty sessionScope.inboxCounter }"> 0 </c:if> ${sessionScope.inboxCounter} ) </span> </a>
+
+            <a href="${pageContext.request.contextPath}/openNotificationModal" id="person" style="float: right;" > <i class="fas fa-bell" ></i> <span class="inbox-items"> ( <c:if test="${empty sessionScope.unReadNotificationsCounter }"> 0 </c:if> ${sessionScope.unReadNotificationsCounter} ) </span> </a>
 
 		</div>
 
@@ -106,6 +460,128 @@ if(session == null || session.getAttribute("fullName") == null){
 
 <!-- =========================================================================================================================== -->
 <!-- ==============================================MODAL'S(POP-UP WINDOWS)====================================================== -->
+
+
+
+<!-- ================-NOTIFICATION Modal ==========================-->
+
+
+     <!-- This JS Code opens the Notification Modal -->
+   <c:if test="${openNotificationModal}">
+     
+     <script>
+   
+          $(document).ready(function() { $('#notificationsModal').modal('show'); });
+ 
+     </script>
+     
+   </c:if>
+
+
+
+	<!-- Notification Modal -->
+	<div class="modal fade" id="notificationsModal" tabindex="-1" role="dialog" aria-hidden="true">
+		
+		<div class="modal-dialog modal-lg" role="document">
+
+			<div class="modal-content">
+			
+				<div class="modal-header" style="background-color: #C9B194;">
+			
+					<h3 class="modal-title" style="font-weight: bold; color: #4a403a; font-family: 'Pacifico', cursive;">Notifications</h3>
+				
+				</div>
+
+				<div class="modal-body">
+					
+					<div class="notification-body">
+
+						<c:choose>
+							
+							<c:when test="${not empty sessionScope.unReadNotificationsList}">
+								
+								<c:forEach var="n" items="${sessionScope.unReadNotificationsList}">
+
+									<div class="notification-item" style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #ddd;">
+
+										<div style="flex-grow: 1;">
+											
+											<p style="margin: 0;">
+												
+												<strong>Item:</strong> ${n.itemName}
+											
+											</p>
+											
+											<p style="margin: 0;">
+												
+												<strong>Address:</strong> ${n.deliveryAddress}
+											
+											</p>
+											
+											<p style="margin: 0;">
+												
+												<strong>Status:</strong> ${n.status}
+											
+											</p>
+										
+										</div>
+
+										
+										<form method="post" action="${pageContext.request.contextPath}/markNotificationAsRead">
+											
+											<input type="hidden" name="userId" value="${n.userId}" /> 
+											
+											<input type="hidden" name="orderId" value="${n.orderId}" />
+											
+											<button type="submit" class="btn btn-success">OK</button>
+											
+										</form>
+										
+									</div>
+
+								</c:forEach>
+								
+							</c:when>
+
+							<c:otherwise>
+								
+								<p style="text-align: center; padding: 20px;">No Notifications.</p>
+								
+							</c:otherwise>
+							
+						</c:choose>
+
+					</div>
+					
+				</div>
+
+				<div class="modal-footer">
+				
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">
+					    
+					    Close
+					
+					</button>
+					
+				</div>
+				
+			</div>
+
+		</div>
+		
+	</div> <!-- Closing brace of the Notifications Modal -->
+
+
+
+
+
+
+
+	<!-- ===============================================================-->
+
+
+
+
 
 <!-- ========- USER INFO MODAL -======= -->
 
@@ -205,6 +681,20 @@ if(session == null || session.getAttribute("fullName") == null){
 	</div> <!-- Closing tag of the User-info Modal -->
 
 
+
+   <!-- This JS Code opens the Edit User Profile Modal -->
+   <c:if test="${openEditModal}">
+     
+     <script>
+   
+          $(document).ready(function() { $('#editProfileModal').modal('show'); });
+ 
+     </script>
+     
+   </c:if>
+   
+   
+   
 	<!-- Modal for Editing User Info -->
 	<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
 		
@@ -523,38 +1013,10 @@ document.querySelectorAll('.reload-img').forEach(button => {
 
 
 
-<!-- ========- INBOX MODAL -=========== -->
 
 
- <!-- This JS Code opens the Edit User Profile Modal -->
-   <c:if test="${showInboxModal}">
-     
-     <script>
-   
-          $(document).ready(function() { $('#Inbox').modal('show'); });
- 
-     </script>
-     
-   </c:if>
 
-   <!-- This JS Code opens the Edit User Profile Modal -->
-   <c:if test="${openEditModal}">
-     
-     <script>
-   
-          $(document).ready(function() { $('#editProfileModal').modal('show'); });
- 
-     </script>
-     
-   </c:if>
-
-
-<!-- ################################################################################################################################ -->
-
-<!-- ========- INBOX MODAL -=========== -->
-
-
- <!-- This JS Code opens the Edit User Profile Modal -->
+ <!-- This JS Code opens the Inbox Modal -->
    <c:if test="${showInboxModal}">
      
      <script>
@@ -716,16 +1178,20 @@ document.querySelectorAll('.reload-img').forEach(button => {
 		</div>
 
 	</div> <!-- Closing Tag of the Inbox Modal -->
+
+
+
 <!-- ################################################################################################################################ -->
 
 
 
 <c:if test="${not empty sessionScope.openCartModal}">
+    
     <script>
 					$(document).ready(function() {
 						$('#cart').modal('show');
 					});
-				</script>
+	</script>
 
     <c:remove var="openCartModal" scope="session" />
 </c:if>
@@ -983,7 +1449,6 @@ document.querySelectorAll('.reload-img').forEach(button => {
 
 
 
-
 <c:if test="${not empty sessionScope.showCheckoutModal}">
     <script>
         $(function() {
@@ -998,6 +1463,7 @@ document.querySelectorAll('.reload-img').forEach(button => {
 
 
 <!-- ========- CHECKOUT MODAL -=========== -->
+
 
 <!-- Checkout Modal -->
 <div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -1152,7 +1618,6 @@ document.querySelectorAll('.reload-img').forEach(button => {
 
 
 <!-- =========================================================================================================================== -->
-
 <!-- =========================================================================================================================== -->
 
 
@@ -1164,7 +1629,7 @@ document.querySelectorAll('.reload-img').forEach(button => {
 
 	<div id="heading">
 
-		<h1 id="heading-title" style="margin-top: 40px;">Suly Bakery</h1>
+		<h1 id="heading-title" style="font-family: 'Pacifico', cursive; font-style: normal; margin-top: 40px; color: #4a403a;"> Suly Bakery</h1>
 
 	</div>
 
@@ -1173,695 +1638,279 @@ document.querySelectorAll('.reload-img').forEach(button => {
 
 	<div id="main" style="margin-top: 40px;">
 
+   <!-- Main Content - Menu Section -->
+<main class="menu-container" style="background-color: #C9B194;">
 
-		<!-- Item 1 -->
-		<div class="card">
-		
-			<div class="card-content">
-			
-				<img src="https://www.homestratosphere.com/wp-content/uploads/2020/07/baguette-bread-july222020-min-e1595406425983.jpg" class="item-img">
-				
-				<h1 style="margin-top: 78px;">Baguette Bread</h1>
-				
-			</div>
-			
-			<div class="card-action">
-			
-				<button class="btn btn-primary" onclick="openModal('1', 'Baguette Bread', 'Savour the taste of French sticks; made from flour, water, yeast and salt!')"> Select </button>
-			
-			</div>
-			
-		</div>
-
-
-		<!-- Item Selection Modal for Item 1 -->
-		<div class="modal fade" id="itemModal1" tabindex="-1" role="dialog" aria-hidden="true">
-
-			<div class="modal-dialog" role="document">
-
-				<div class="modal-content">
-
-
-					<div class="modal-header">
-
-						<h5 class="modal-title" id="itemModalLabel"></h5>
-
-					</div>
-
-
-
-                     <form name="AddtoCartForm" method="post" action="${pageContext.request.contextPath}/addToCartController" id="itemForm1" autocomplete="off">
-
-
-					<div class="modal-body">
-
-						<p id="itemDescription"></p>
-
-						
-							<select id="itemDropdown" class="price-dropdown" name="selectedQuantity">
-
-								<option value="2"> 2 pieces ~ 250iqd </option>
-								<option value="4"> 4 pieces ~ 500iqd </option>
-								<option value="8"> 8 pieces ~ 1000iqd </option>
-								<option value="12"> 12 pieces ~ 1500iqd </option>
-
-							</select>
-					
-					</div>
-
-
-					<div class="modal-footer">
-
-						<button type="button" class="btn btn-secondary" data-dismiss="modal"> Close </button>
-
-                         <input type="hidden" name="itemName" value="Baguette Bread">
+ <div >
  
-						<button type="submit" class="btn btn-primary" > Add to Cart </button>
-
-					</div>
-
-
-                   </form>
-
-				</div>
-
-			</div>
-
-		</div> <!-- Closing tag of Item Selection Modal for Item 1 -->
-
-
-	<!--********************************************************************************************************-->
-
-		<!-- Item 2 -->
-		<div class="card">
-		
-			<div class="card-content">
-				
-				<img src="https://www.homestratosphere.com/wp-content/uploads/2020/07/brioche-bread-july222020-min.jpg" class="item-img">
-				
-				<h1>Brioche Bread</h1>
-				
-			</div>
-			
-			<div class="card-action">
-			
-				<button class="btn btn-primary" onclick="openModal('2', 'Brioche Bread', 'Unique French bread made with butter and eggs!')"> Select </button>
-			
-			</div>
-			
-		</div>
-
-
-		<!-- Item Selection Modal for Item 2 -->
-		<div class="modal fade" id="itemModal2" tabindex="-1" role="dialog" aria-hidden="true">
-		
-			<div class="modal-dialog" role="document">
-			
-				<div class="modal-content">
-				
-					<div class="modal-header">
-					
-						<h5 class="modal-title" id="itemModalLabel"></h5>
-						
-					</div>
-					
-					
-					 <form name="AddtoCartForm" method="post" action="${pageContext.request.contextPath}/addToCartController" id="itemForm2" autocomplete="off">
-
-
-					<div class="modal-body">
-
-						<p id="itemDescription"></p>
-
-						
-							<select id="itemDropdown" class="price-dropdown" name="selectedQuantity">
-
-								<option value="2"> 2 pieces ~ 250iqd </option>
-								<option value="4"> 4 pieces ~ 500iqd </option>
-								<option value="8"> 8 pieces ~ 1000iqd </option>
-								<option value="12"> 12 pieces ~ 1500iqd </option>
-
-							</select>
-					
-					</div>
-
-
-					<div class="modal-footer">
-
-						<button type="button" class="btn btn-secondary" data-dismiss="modal"> Close </button>
-
-                         <input type="hidden" name="itemName" value="Brioche Bread">
- 
-						<button type="submit" class="btn btn-primary" > Add to Cart </button>
-
-					</div>
-
-
-                   </form>
-					
-				</div>
-				
-			</div>
-			
-		</div> <!-- Closing tag of Item Selection Modal for Item 2 -->
-
-
-	<!--********************************************************************************************************-->
-
-		<!-- Item 3 -->
-		<div class="card">
-		
-			<div class="card-content">
-				
-				<img src="https://www.homestratosphere.com/wp-content/uploads/2020/07/ciabatta-bread-july222020-min.jpg" class="item-img">
-				
-				<h1>Ciabatta Bread</h1>
-			
-			</div>
-			
-			<div class="card-action">
-			
-				<button class="btn btn-primary" onclick="openModal('3', 'Ciabatta Bread', 'Perfect for paninis and sandwiches; consists of water, yeast, salt and flour!')"> Select </button>
-			
-			</div>
-			
-		</div>
-
-
-
-		<!-- Item Selection Modal for Item 3 -->
-		<div class="modal fade" id="itemModal3" tabindex="-1" role="dialog" aria-hidden="true">
-			
-			<div class="modal-dialog" role="document">
-				
-				<div class="modal-content">
-					
-					<div class="modal-header">
-					
-						<h5 class="modal-title" id="itemModalLabel"></h5>
-						
-					</div>
-					
-					 <form name="AddtoCartForm" method="post" action="${pageContext.request.contextPath}/addToCartController" id="itemForm3" autocomplete="off">
-
-
-					<div class="modal-body">
-
-						<p id="itemDescription"></p>
-
-						
-							<select id="itemDropdown" class="price-dropdown" name="selectedQuantity">
-
-								<option value="2"> 2 pieces ~ 250iqd </option>
-								<option value="4"> 4 pieces ~ 500iqd </option>
-								<option value="8"> 8 pieces ~ 1000iqd </option>
-								<option value="12"> 12 pieces ~ 1500iqd </option>
-
-							</select>
-					
-					</div>
-
-
-					<div class="modal-footer">
-
-						<button type="button" class="btn btn-secondary" data-dismiss="modal"> Close </button>
-
-                         <input type="hidden" name="itemName" value="Ciabatta Bread">
- 
-						<button type="submit" class="btn btn-primary" > Add to Cart </button>
-
-					</div>
-
-
-                   </form>
-					
-				</div>
-				
-			</div>
-			
-		</div> <!-- Closing tag of Item Selection Modal for Item 3 -->
-
-
-	<!--********************************************************************************************************-->
-
-
-		<!-- Item 4 -->
-		<div class="card">
-		
-			<div class="card-content">
-			
-				<img src="https://www.homestratosphere.com/wp-content/uploads/2020/07/multigrain-bread-july222020-min.jpg" class="item-img">
-				
-				<h1>Multigrain Bread</h1>
-			
-			</div>
-			
-			<div class="card-action">
-				
-				<button class="btn btn-primary" onclick="openModal('4', 'Multigrain Bread', 'Specially for fitness freaks-contains oats, barley, flax, millet, and more!')"> Select </button>
-			
-			</div>
-			
-		</div>
-
-
-		<!-- Item Selection Modal for Item 4 -->
-		<div class="modal fade" id="itemModal4" tabindex="-1" role="dialog" aria-hidden="true">
-			
-			<div class="modal-dialog" role="document">
-				
-				<div class="modal-content">
-					
-					<div class="modal-header">
-						
-						<h5 class="modal-title" id="itemModalLabel"></h5>
-					
-					</div>
-					
-					
-						 <form name="AddtoCartForm" method="post" action="${pageContext.request.contextPath}/addToCartController" id="itemForm4" autocomplete="off">
-
-
-					<div class="modal-body">
-
-						<p id="itemDescription"></p>
-
-						
-							<select id="itemDropdown" class="price-dropdown" name="selectedQuantity">
-
-								<option value="2"> 2 pieces ~ 250iqd </option>
-								<option value="4"> 4 pieces ~ 500iqd </option>
-								<option value="8"> 8 pieces ~ 1000iqd </option>
-								<option value="12"> 12 pieces ~ 1500iqd </option>
-
-							</select>
-					
-					</div>
-
-
-					<div class="modal-footer">
-
-						<button type="button" class="btn btn-secondary" data-dismiss="modal"> Close </button>
-
-                         <input type="hidden" name="itemName" value="Multigrain Bread">
- 
-						<button type="submit" class="btn btn-primary" > Add to Cart </button>
-
-					</div>
-
-
-                   </form>
-				
-				</div>
-			
-			</div>
-		
-		</div> <!--Closing tag Item Selection Modal for Item 4 -->
-
-
-	<!--********************************************************************************************************-->
-
-		<!--Item 5 -->
-		<div class="card">
-		
-			<div class="card-content">
-			
-				<img src="https://www.homestratosphere.com/wp-content/uploads/2020/07/whole-wheat-bread-july222020-min.jpg" class="item-img">
-				
-				<h1>Whole Wheat</h1>
-				
-			</div>
-			
-			<div class="card-action">
-			
-				<button class="btn btn-primary" onclick="openModal('5', 'Whole Wheat', 'Nutritious and has more fibre than regular bread!')"> Select </button>
-			
-			</div>
-			
-		</div>
-
-
-		<!-- Item Selection Modal for Item 5 -->
-		<div class="modal fade" id="itemModal5" tabindex="-1" role="dialog" aria-hidden="true">
-			
-			<div class="modal-dialog" role="document">
-				
-				<div class="modal-content">
-					
-					<div class="modal-header">
-					
-						<h5 class="modal-title" id="itemModalLabel"></h5>
-					
-					</div>
-					
-					 <form name="AddtoCartForm" method="post" action="${pageContext.request.contextPath}/addToCartController" id="itemForm5" autocomplete="off">
-
-
-					<div class="modal-body">
-
-						<p id="itemDescription"></p>
-
-						
-							<select id="itemDropdown" class="price-dropdown" name="selectedQuantity">
-
-								<option value="2"> 2 pieces ~ 250iqd </option>
-								<option value="4"> 4 pieces ~ 500iqd </option>
-								<option value="8"> 8 pieces ~ 1000iqd </option>
-								<option value="12"> 12 pieces ~ 1500iqd </option>
-
-							</select>
-					
-					</div>
-
-
-					<div class="modal-footer">
-
-						<button type="button" class="btn btn-secondary" data-dismiss="modal"> Close </button>
-
-                         <input type="hidden" name="itemName" value="Whole Wheat">
- 
-						<button type="submit" class="btn btn-primary" > Add to Cart </button>
-
-					</div>
-
-
-                   </form>
-					
-				</div>
-				
-			</div>
-			
-		</div> <!-- Closing tag of Item Selection Modal for Item 5 -->
-
-
-	<!--********************************************************************************************************-->
-		
-		<!-- Item 6 -->
-		<div class="card">
-		
-			<div class="card-content">
-				
-				<img src="https://www.homestratosphere.com/wp-content/uploads/2020/07/lavash-bread-july222020-min.jpg" class="item-img">
-				
-				<h1>Lavash Bread</h1>
-			
-			</div>
-			
-			<div class="card-action">
-			
-				<button class="btn btn-primary"	onclick="openModal('6', 'Lavash Bread', 'Low in fat and made with flour, salt and water!')"> Select</button>
-			
-			</div>
-			
-		</div>
-
-
-		<!-- Item Selection Modal for Item 6 -->
-		<div class="modal fade" id="itemModal6" tabindex="-1" role="dialog" aria-hidden="true">
-		
-			<div class="modal-dialog" role="document">
-			
-				<div class="modal-content">
-				
-					<div class="modal-header">
-					
-						<h5 class="modal-title" id="itemModalLabel"></h5>
-						
-					</div>
-					
-					 <form name="AddtoCartForm" method="post" action="${pageContext.request.contextPath}/addToCartController" id="itemForm6" autocomplete="off">
-
-
-					<div class="modal-body">
-
-						<p id="itemDescription"></p>
-
-						
-							<select id="itemDropdown" class="price-dropdown" name="selectedQuantity">
-
-								<option value="2"> 2 pieces ~ 250iqd </option>
-								<option value="4"> 4 pieces ~ 500iqd </option>
-								<option value="8"> 8 pieces ~ 1000iqd </option>
-								<option value="12"> 12 pieces ~ 1500iqd </option>
-
-							</select>
-					
-					</div>
-
-
-					<div class="modal-footer">
-
-						<button type="button" class="btn btn-secondary" data-dismiss="modal"> Close </button>
-
-                         <input type="hidden" name="itemName" value="Lavash Bread">
- 
-						<button type="submit" class="btn btn-primary" > Add to Cart </button>
-
-					</div>
-
-
-                   </form>
-					
-					
-				</div>
-				
-			</div>
-			
-		</div> <!--Closing tag of Item Selection Modal for Item 6 -->
-
-
-	<!--********************************************************************************************************-->
-
-		<!-- Item 7 -->
-		<div class="card">
-		
-			<div class="card-content">
-			
-				<img src="https://www.homestratosphere.com/wp-content/uploads/2020/07/matzo-bread-july222020-min.jpg" class="item-img">
-				
-				<h1>Thin Bread</h1>
-				
-			</div>
-			
-			<div class="card-action">
-			
-				<button class="btn btn-primary" onclick="openModal('7', 'Thin Bread', 'Tasty jewish bread made from wheat, barley, rice, oats and spelt!')"> Select </button>
-			
-			</div>
-			
-		</div>
-
-
-		<!-- Item Selection Modal for Item 7 -->
-		<div class="modal fade" id="itemModal7" tabindex="-1" role="dialog" aria-hidden="true">
-			
-			<div class="modal-dialog" role="document">
-				
-				<div class="modal-content">
-					
-					<div class="modal-header">
-						
-						<h5 class="modal-title" id="itemModalLabel"></h5>
-					
-					</div>
-					
-					 <form name="AddtoCartForm" method="post" action="${pageContext.request.contextPath}/addToCartController" id="itemForm7" autocomplete="off">
-
-
-					<div class="modal-body">
-
-						<p id="itemDescription"></p>
-
-						
-							<select id="itemDropdown" class="price-dropdown" name="selectedQuantity">
-
-								<option value="2"> 2 pieces ~ 250iqd </option>
-								<option value="4"> 4 pieces ~ 500iqd </option>
-								<option value="8"> 8 pieces ~ 1000iqd </option>
-								<option value="12"> 12 pieces ~ 1500iqd </option>
-
-							</select>
-					
-					</div>
-
-
-					<div class="modal-footer">
-
-						<button type="button" class="btn btn-secondary" data-dismiss="modal"> Close </button>
-
-                         <input type="hidden" name="itemName" value="Thin Bread">
- 
-						<button type="submit" class="btn btn-primary" > Add to Cart </button>
-
-					</div>
-
-
-                   </form>
-					
-				</div>
-				
-			</div>
-			
-		</div> <!--Closing tag of Item Selection Modal for Item 7 -->
-
-
-		<!--********************************************************************************************************-->
-
-		<!-- Item 8 -->
-		<div class="card">
-		
-			<div class="card-content">
-				
-				<img src="https://www.homestratosphere.com/wp-content/uploads/2020/07/naan-bread-july222020-min.jpg" class="item-img">
-				
-				<h1>Naan Bread</h1>
-			
-			</div>
-			
-			<div class="card-action">
-			
-				<button class="btn btn-primary" onclick="openModal('8', 'Naan Bread', 'Delicious naan that uses yogurt as its main ingredient!')"> Select</button>
-			
-			</div>
-			
-		</div>
-
-
-		<!-- Item Selection Modal for Item 8 -->
-		<div class="modal fade" id="itemModal8" tabindex="-1" role="dialog" aria-hidden="true">
-			
-			<div class="modal-dialog" role="document">
-				
-				<div class="modal-content">
-					
-					<div class="modal-header">
-						
-						<h5 class="modal-title" id="itemModalLabel"></h5>
-					
-					</div>
-					
-					 <form name="AddtoCartForm" method="post" action="${pageContext.request.contextPath}/addToCartController" id="itemForm8" autocomplete="off">
-
-
-					<div class="modal-body">
-
-						<p id="itemDescription"></p>
-
-						
-							<select id="itemDropdown" class="price-dropdown" name="selectedQuantity">
-
-								<option value="2"> 2 pieces ~ 250iqd </option>
-								<option value="4"> 4 pieces ~ 500iqd </option>
-								<option value="8"> 8 pieces ~ 1000iqd </option>
-								<option value="12"> 12 pieces ~ 1500iqd </option>
-
-							</select>
-					
-					</div>
-
-
-					<div class="modal-footer">
-
-						<button type="button" class="btn btn-secondary" data-dismiss="modal"> Close </button>
-
-                         <input type="hidden" name="itemName" value="Naan Bread">
- 
-						<button type="submit" class="btn btn-primary" > Add to Cart </button>
-
-					</div>
-
-
-                   </form>
-				
-				</div>
-			
-			</div>
-		
-		</div> <!--Closing tag of Item Selection Modal for Item 8 -->
-
-
-		<!--********************************************************************************************************-->
-
-
-		<!-- Item 9 -->
-		<div class="card">
-		
-			<div class="card-content">
-			
-				<img src="https://www.homestratosphere.com/wp-content/uploads/2020/07/tortilla-bread-july222020-min-e1595407483238.jpg" class="item-img">
-				
-				<h1>Tortilla</h1>
-			
-			</div>
-			
-			<div class="card-action">
-				
-				<button class="btn btn-primary" onclick="openModal('9', 'Tortilla', 'Soft, thin flatbreads utilised in various Mexican dishes, wraps and tacos!')"> Select</button>
-			
-			</div>
-		
-		</div>
-
-
-
-		<!-- Item Selection Modal for Item 9 -->
-		<div class="modal fade" id="itemModal9" tabindex="-1" role="dialog" aria-hidden="true">
-			
-			<div class="modal-dialog" role="document">
-				
-				<div class="modal-content">
-					
-					<div class="modal-header">
-						
-						<h5 class="modal-title" id="itemModalLabel"></h5>
-					
-					</div>
-					
-					 <form name="AddtoCartForm" method="post" action="${pageContext.request.contextPath}/addToCartController" id="itemForm9" autocomplete="off">
-
-
-					<div class="modal-body">
-
-						<p id="itemDescription"></p>
-
-						
-							<select id="itemDropdown" class="price-dropdown" name="selectedQuantity">
-
-								<option value="2"> 2 pieces ~ 250iqd </option>
-								<option value="4"> 4 pieces ~ 500iqd </option>
-								<option value="8"> 8 pieces ~ 1000iqd </option>
-								<option value="12"> 12 pieces ~ 1500iqd </option>
-
-							</select>
-					
-					</div>
-
-
-					<div class="modal-footer">
-
-						<button type="button" class="btn btn-secondary" data-dismiss="modal"> Close </button>
-
-                         <input type="hidden" name="itemName" value="Tortilla">
- 
-						<button type="submit" class="btn btn-primary" > Add to Cart </button>
-
-					</div>
-
-
-                   </form>
-				
-				</div>
-			
-			</div>
-		
-		</div> <!--Closing tag of Item Selection Modal for Item 9 -->
-
-
-		<!--********************************************************************************************************-->
-
-
-
- <script>
+    <h2 class="menu-title" style="font-family: 'Pacifico', cursive; font-style: normal; font-weight: bold; font-size: 46px; color: #4a403a;">  Our Menu </h2>
+    
+    
+  
+    
+    <!-- Category Buttons -->
+     <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 8px;">
+               
+           <form method="get" action="customerViewCategoryController">    
+            
+                <input type="hidden" name="category" value="Breads">
+                
+                <button type="submit" class="category-btn" style="font-family: 'Pacifico', cursive; font-style: normal;
+                                                                  background-color: white; color: #4a403a; border: 2px solid white; 
+                                                                  padding: 8px 20px;  font-size: 18px; font-weight: bold; cursor: pointer;">
+                        
+                    Breads
+                                    
+                </button>
+                
+           </form>     
+            
+              <form method="get" action="customerViewCategoryController">  
+                  
+                <input type="hidden" name="category" value="Cakes">
+                
+                <button type="submit" class="category-btn" style="font-family: 'Pacifico', cursive; font-style: normal;
+                                                                  background-color: white; color: #4a403a; border: 2px solid white; 
+                                                                  padding: 8px 20px;  font-size: 18px;  font-weight: bold; cursor: pointer;">
+                        
+                    Cakes
+                    
+                </button>
+                
+              </form>  
+      </div>
+    
+    
+    
+    
+    
+    <div class="menu-items" style="background-color: #F2F3F1">
+       
+       
+       <div class="menu-grid" style="margin-top: 40px;">
+       
+       <c:choose>
+
+    
+    <c:when test="${showCategory == 'Breads' || empty showCategory }">
+    
+        <c:forEach var="bread" items="${retrievedBreads}">
+        
+            <div class="card">
+            
+                <div class="card-content">
+                
+                    <c:if test="${fn:startsWith(bread.imgURL, '/images/bread/')}">
+											
+							<img src="${pageContext.request.contextPath}${desert.imgURL}" class="item-img" />
+											
+					</c:if>
+
+					<c:if test="${not fn:startsWith(bread.imgURL, '/images/bread/')}">
+												
+							<img src="${bread.imgURL}" class="item-img" />
+											
+					</c:if>
+                    
+                    <h1>${bread.itemName}</h1>
+                    
+                </div>
+                
+                <div class="card-action">
+                
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#modal_${bread.breadsId}">
+                        Select
+                    </button>
+                    
+                </div>
+                
+            </div>
+
+            
+            <div class="modal fade" id="modal_${bread.breadsId}" tabindex="-1" role="dialog" aria-hidden="true">
+            
+                <div class="modal-dialog" role="document">
+                
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                        
+                            <h5 class="modal-title" style="font-family: 'Pacifico', cursive; font-style: normal;">
+                                ${bread.itemName}
+                                
+                            </h5>
+                            
+                        </div>
+
+                        <form method="post" action="${pageContext.request.contextPath}/addToCartController" autocomplete="off">
+                        
+                            <div class="modal-body">
+                            
+                                <p>${bread.itemDesc}</p>
+                                
+                                <select class="price-dropdown" name="selectedQuantity">
+                                
+                                    <option value="2">2 pieces ~ <c:out value="${2 * bread.itemPrice}" />iqd</option>
+                                    
+                                    <option value="4">4 pieces ~ <c:out value="${4 * bread.itemPrice}" />iqd</option>
+                                    
+                                    <option value="8">8 pieces ~ <c:out value="${8 * bread.itemPrice}" />iqd</option>
+                                    
+                                    
+                                </select>
+                                
+                            </div>
+
+                            <div class="modal-footer">
+                            
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <input type="hidden" name="itemName" value="${bread.itemName}">
+                                
+                                <input type="hidden" name="itemType" value="Bread">
+                                
+                                <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                
+                            </div>
+                            
+                        </form>
+
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </c:forEach>
+        
+    </c:when>
+
+   
+    <c:when test="${showCategory == 'Cakes'}">
+    
+        <c:forEach var="desert" items="${retrievedDeserts}">
+        
+            <div class="card">
+            
+                <div class="card-content">
+
+											<c:if test="${fn:startsWith(desert.imgURL, '/images/cakes/')}">
+											
+												<img src="${pageContext.request.contextPath}${desert.imgURL}" class="item-img" />
+											
+											</c:if>
+
+											<c:if test="${not fn:startsWith(desert.imgURL, '/images/cakes/')}">
+												
+												<img src="${desert.imgURL}" class="item-img" />
+											
+											</c:if>
+
+
+											<h1>${desert.itemName}</h1>
+                    
+                </div>
+                
+                <div class="card-action">
+                
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#modal_${desert.desertsId}">
+                    
+                        Select
+                        
+                    </button>
+                    
+                </div>
+                
+            </div>
+
+            
+            <div class="modal fade" id="modal_${desert.desertsId}" tabindex="-1" role="dialog" aria-hidden="true">
+            
+                <div class="modal-dialog" role="document">
+                
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                        
+                            <h5 class="modal-title" style="font-family: 'Pacifico', cursive; font-style: normal;">
+                            
+                                ${desert.itemName}
+                                
+                            </h5>
+                            
+                        </div>
+
+                        <form method="post" action="${pageContext.request.contextPath}/addToCartController" autocomplete="off">
+                        
+                            <div class="modal-body">
+                            
+                                <p>${desert.itemDesc}</p>
+                                
+                                <select class="price-dropdown" name="selectedQuantity">
+                                
+                                    <option value="2">2 pieces ~ <c:out value="${2 * desert.itemPrice}" />iqd</option>
+                                    
+                                    <option value="4">4 pieces ~ <c:out value="${4 * desert.itemPrice}" />iqd</option>
+                                    
+                                    <option value="8">8 pieces ~ <c:out value="${8 * desert.itemPrice}" />iqd</option>
+                                                                    
+                                </select>
+                                
+                            </div>
+
+                            <div class="modal-footer">
+                            
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                
+                                <input type="hidden" name="itemName" value="${desert.itemName}">
+                                
+                                <input type="hidden" name="itemType" value="Desert">
+                                
+                                <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                
+                            </div>
+                            
+                        </form>
+
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </c:forEach>
+        
+    </c:when>
+
+</c:choose>
+
+       
+   </div>
+       
+       
+    </div> 
+    
+    
+    
+    
+  
+    
+    
+    </div>
+    
+</main>
+
+    
+   
+   
+    </div> <!-- Closing brace of the main -->
+
+
+
+
+
+
+
+<script>
 
 //This 'openModal()' method! allows us to select the items & and be able to Add them into the cart.
 
@@ -1885,31 +1934,22 @@ document.querySelectorAll('.reload-img').forEach(button => {
     
     
  }//closing brace of the 'openModal()' method.
- 
- 
+
+
+
 
 </script>
 
-
-
- </div>
-	<!-- End of Main Div -->
-
-
-
-
-<!--********************************************************************************************************-->
-
-
+	
 
 
 	<!-- Footer -->
-	<div id="footer" style="margin-top: 40px;">
+	<div id="footer" style="margin-top: 40px; background-color: #C9B194;" >
 
 		<!-- Phone Numbers -->
 		<div class="footer__contact">
 		
-			<i>+964 750 141 8006</i> <br> <i>+964 771 152 8011</i>
+			<i style="color: #4a403a; font-family: 'Pacifico', cursive; font-style: normal;">+964 750 141 8006</i> <br> <i style="color: #4a403a; font-family: 'Pacifico', cursive; font-style: normal;">+964 771 152 8011</i>
 			
 		</div>
 
@@ -1919,13 +1959,13 @@ document.querySelectorAll('.reload-img').forEach(button => {
 			<ul class="horizontal-list text-center social-icons">
 			
 				<!-- Instagram Icon -->
-				<li> <a href="#"> <i class="fab fa-instagram"></i> </a> </li>
+				<li style="color: #4a403a;"> <a href="#"> <i class="fab fa-instagram"></i> </a> </li>
 				
 				<!-- YouTube Icon -->
-				<li> <a href="#"> <i class="fab fa-youtube"></i> </a> </li>
+				<li style="color: #4a403a;"> <a href="#"> <i class="fab fa-youtube"></i> </a> </li>
 				
 				<!-- Facebook Icon -->
-				<li> <a href="#"> <i class="fab fa-facebook"></i> </a> </li>
+				<li style="color: #4a403a;"> <a href="#"> <i class="fab fa-facebook"></i> </a> </li>
 				
 			</ul>
 			
@@ -1934,12 +1974,11 @@ document.querySelectorAll('.reload-img').forEach(button => {
 		<!-- Email -->
 		<div class="footer__mail">
 		
-			<i>SulyBakery@gmail.com</i>
+			<i style="color: #4a403a; font-family: 'Pacifico', cursive; font-style: normal;">SulyBakery@gmail.com</i>
 			
 		</div>
 
 	</div>
-
 
 
 
