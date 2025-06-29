@@ -74,7 +74,7 @@ if(session == null || session.getAttribute("fullName") == null){
 <style type="text/css">
 
 	
-/* ===== BASE STYLES ===== */
+
 body {
   font-family: "Pacifico", cursive;
   font-style: normal;
@@ -176,7 +176,7 @@ color: #DBDBDB;
   transform: translateY(-3px);
 }
 
-/=======================================================================/
+
 
 
 
@@ -218,7 +218,7 @@ font-size:19px;
 
 
 
-/=======================================================================/
+
 
 .menu-items {
 	
@@ -309,7 +309,7 @@ font-size:19px;
 }
 
 
-/=======================================================================/
+
 
 
 /* CSS code of the cart +,-,trash buttons*/
